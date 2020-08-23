@@ -1,4 +1,4 @@
-class Abstract_card:
+class Abstract_Card:
 
     def __init__(self,desc):
         self.desc = desc
@@ -6,12 +6,12 @@ class Abstract_card:
     def __str__(self):
         return self.desc
 
-class Abstract_colored_card(Abstract_card):
+class AbstractColoredCard(Abstract_Card):
 
     def __init__(self,color,value):
         super().__init__(f"{value} de {color}")
 
-class Belote_card(Abstract_colored_card):
+class BeloteCard(AbstractColoredCard):
 
     values = ["sept","huit","neuf","dix","valet","dame","roi","as"]
     colors = ["carreau","coeur","pique","trefle"]

@@ -1,4 +1,4 @@
-from card import Abstract_card,Belote_card
+from card import Abstract_card,BeloteCard
 from itertools import product
 import numpy as np
 
@@ -30,17 +30,14 @@ class Deck:
         self.set = np.roll(self.set,np.random.randint(self.set.shape[0]))
 
 
-class Belote_deck(Deck):
+class BeloteDdeck(Deck):
 
     def __init__(self,shuffle=True):
         deck = []
-        for color,value in product(Belote_card.colors,Belote_card.values):
-            deck.append(Belote_card(color,value))
+        for color,value in product(BeloteCard.colors,BeloteCard.values):
+            deck.append(BeloteCard(color,value))
 
         super().__init__(deck,"Jeu de Belote")
 
         if shuffle:
             self.shuffle()
-
-
-d = Belote_deck()
