@@ -1,4 +1,4 @@
-from deck import Deck,BeloteDdeck
+from deck import Deck,BeloteDeck
 
 
 
@@ -24,6 +24,9 @@ class RulesException(Exception):
     def __init__(self, message):
         self.message = message
 
+    def __str__(self):
+        return message
+
 
 class PliBasedGame(TurnbasedGame):
 
@@ -32,7 +35,7 @@ class PliBasedGame(TurnbasedGame):
         self.list_last_players = []
 
     def play(self,index_card,index_player):
-
+            
         if index_player in self.list_last_players:
             raise RulesException("this player has already played this turn")
 
@@ -42,5 +45,3 @@ class PliBasedGame(TurnbasedGame):
 
         if len(self.list_last_players) == self.n:
              self.list_last_players = []
-
-class Belote_game()

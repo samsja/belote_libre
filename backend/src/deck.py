@@ -1,4 +1,4 @@
-from card import Abstract_card,BeloteCard
+from card import BeloteCard
 from itertools import product
 import numpy as np
 
@@ -6,10 +6,6 @@ import numpy as np
 class Deck:
 
     def __init__(self,deck_list,desc):
-
-        # if not(isinstance(deck_list, (list, tuple, Abstract_card))):
-        #     raise ValueError("some of the element of the deck list are not Abstract_card")
-
         if isinstance(deck_list,np.ndarray):
             self.set = deck_list
         else:
@@ -30,7 +26,7 @@ class Deck:
         self.set = np.roll(self.set,np.random.randint(self.set.shape[0]))
 
 
-class BeloteDdeck(Deck):
+class BeloteDeck(Deck):
 
     def __init__(self,shuffle=True):
         deck = []
