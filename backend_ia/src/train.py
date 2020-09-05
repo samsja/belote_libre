@@ -1,17 +1,21 @@
 from agents import StupidPlayer,RandomPlayer
 from game import SansAtout
-from vizu import StdoutVizu
+from vizu import StdoutVizu,TerminalVizu
 
 
 
-nb_pli = 10
+nb_pli = 8
 
 env = SansAtout()
-viz = StdoutVizu()
+# viz = StdoutVizu()
+viz = TerminalVizu()
+
 players = [ RandomPlayer() for _ in range(env.nb_player) ]
 
 
-for _ in range(env.nb_player*nb_pli):
+for i in range(env.nb_player*nb_pli):
+
+    print(i)
 
     action_passed = False
 
@@ -21,5 +25,7 @@ for _ in range(env.nb_player*nb_pli):
         action_passed = env.play_a_card(selected_action)
 
 
-for pli in env.all_pli:
-    print(viz.str_pli_info(pli))
+
+for idx,pli in enumerate(env.all_pli):
+    print(f"{idx+1}.")
+    viz.pli_info(pli)

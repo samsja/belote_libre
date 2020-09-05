@@ -1,4 +1,5 @@
 import deck
+import numpy as np
 
 class SansAtout:
 
@@ -7,8 +8,8 @@ class SansAtout:
         if not(len(card_deck.set)%nb_player ==0):
             raise ValueError(f"the number of player : {nb_player}  should divide the total amount of card in the deck :{len(card_deck.set)}")
 
-
         self.card_deck = card_deck
+
         self.nb_player = nb_player
 
         self.next_player = 0
@@ -45,6 +46,10 @@ class SansAtout:
         if len(self.pli) == self.nb_player:
 
             self.all_pli.append(self.pli)
+
+            # for card in self.pli:
+            #     self.card_deck.set = np.delete(self.card_deck.set , np.where(self.card_deck.set  == card))
+
             self.pli = []
             self.next_player = self._get_opener_player()
             self.card_deck.shuffle()

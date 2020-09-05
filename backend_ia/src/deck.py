@@ -2,6 +2,9 @@ import numpy as np
 from enum import Enum
 from itertools import product
 
+map_unicard_value= ["",'A','2','3','4','5','6','7','8','9','T',"J","Q","K"]
+map_unicard_colors= ['d','s','h','c']
+
 
 class Color(Enum):
     DIAMOND = 0
