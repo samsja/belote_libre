@@ -25,6 +25,9 @@ class Value(Enum):
     QUEEN = 12
     KING = 13
 
+
+
+
 class Deck:
 
     def __init__(self):
@@ -39,7 +42,6 @@ class Deck:
 
     def roll(self):
         self.set = np.roll(self.set,np.random.randint(self.set.shape[0]))
-
 
 
 class BeloteDeck(Deck):
