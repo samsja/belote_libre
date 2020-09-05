@@ -2,7 +2,7 @@ from deck import Value,Color
 
 
 
-class stdout_vizu:
+class StdoutVizu:
     # def __init__(self):
     #
     #
