@@ -5,9 +5,9 @@ from vizu import stdout_vizu
 
 v = stdout_vizu()
 
-class Bataille:
+class SansAtout:
 
-    def __init__(self,nb_player=4,card_deck=deck.Deck()):
+    def __init__(self,nb_player=4,card_deck=deck.BeloteDeck(),shuffle= True):
 
         if not(len(card_deck.set)%nb_player ==0):
             raise ValueError(f"the number of player : {nb_player}  should divide the total amount of card in the deck :{len(card_deck.set)}")
@@ -21,25 +21,30 @@ class Bataille:
         self.pli = []
         self.all_pli = []
 
-        self.card_deck.shuffle()
+        if shuffle = True:
+            self.card_deck.shuffle()
 
         self.nb_card_per_player = int(len(self.card_deck.set)/self.nb_player)
-
-
-    def get_opener_player(self):
-        return 0
 
     def get_cards_player(self,player):
         n = int(len(self.card_deck.set)/self.nb_player)
         return self.card_deck.set[player*n:(player+1)*n]
 
-    def play_a_card(self,card,player):
+    def get_opener_player(self):
+        return 0
 
+    def is_play_allow(self,card,player):
         if player != self.next_player :
             return False
 
         if not(card in self.get_cards_player(player)):
             return False
+
+    def play_a_card(self,card,player):
+
+        if not(self.is_play_allow(card,player)):
+            return False
+
 
         self.pli.append([card,player])
 
