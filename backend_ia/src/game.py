@@ -48,7 +48,7 @@ class SansAtout:
             self.all_pli.append(self.pli)
 
             # for card in self.pli:
-            #     self.card_deck.set = np.delete(self.card_deck.set , np.where(self.card_deck.set  == card))
+            #     self.card_deck.set = self.card_deck.set[self.card_deck.set != card]
 
             self.pli = []
             self.next_player = self._get_opener_player()

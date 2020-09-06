@@ -53,10 +53,10 @@ class TerminalVizu:
 
     def set_info(self,set,print_b=True):
 
-        str = f"The set has {len(set)} cards \n"
+        str = ""
 
         for idx, card in enumerate(set):
-            str = str + f"{idx + 1}. " +  self.card_info(card,print_b=False) + "\n"
+            str = str + " " + self.card_info(card,print_b=False)
 
         if print_b:
             print(str)
