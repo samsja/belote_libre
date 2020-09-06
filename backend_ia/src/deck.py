@@ -53,3 +53,10 @@ class BeloteDeck(Deck):
         super().__init__()
 
         self.set = self.set[(Value.SEVEN.value-1)*4 :Value.KING.value*4]
+
+class SimpleDeck(Deck):
+
+    def __init__(self):
+        super().__init__()
+
+        self.set = np.append(self.set[(Value.AS.value-1)*4 :Value.AS.value*4] , self.set[(Value.JACK.value-1)*4 :Value.KING.value*4],axis=0)

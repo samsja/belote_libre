@@ -37,11 +37,6 @@ class StdoutVizu:
         return str
 
 
-
-
-
-
-
 class TerminalVizu:
 
     def card_info(self,card,print_b=True):
@@ -69,13 +64,17 @@ class TerminalVizu:
         return str
 
     def pli_info(self,pli,print_b=True):
-        if len(pli) != 4:
-            raise ValueError("only 4 players allowed for terminal card")
+        if not(len(pli) in [2,4])  :
+            raise ValueError("only 4 or 2 players allowed for terminal card")
 
         cards = [ card[0] for card in pli]
         idx = [ card[1] for card in pli]
 
 
-        print(f" {self.card_info(cards[idx.index(0)],print_b=False)} ")
-        print(f"{self.card_info(cards[idx.index(1)],print_b=False)} {self.card_info(cards[idx.index(2)],print_b=False)}   ")
-        print(f" {self.card_info(cards[idx.index(3)],print_b=False)} ")
+        if len(pli)==4:
+            print(f" {self.card_info(cards[idx.index(0)],print_b=False)} ")
+            print(f"{self.card_info(cards[idx.index(1)],print_b=False)} {self.card_info(cards[idx.index(2)],print_b=False)}   ")
+            print(f" {self.card_info(cards[idx.index(3)],print_b=False)} ")
+
+        if len(pli)==2:
+            print(f"{self.card_info(cards[idx.index(0)],print_b=False)} {self.card_info(cards[idx.index(1)],print_b=False)}   ")
