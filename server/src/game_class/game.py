@@ -58,7 +58,7 @@ class Game:
             raise TypeError(f"player should be an integer between 0 and {self.nb_player} not {type(player)}")
 
         if not(isinstance(card,Card)):
-            raise TypeError(f"card should be a Card {type(card)}")
+            raise TypeError(f"card should be a Card not {type(card)}")
 
         if self._validate_card(card,player) and self.next_player == player:
             self.hands[player].remove(card)

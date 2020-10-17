@@ -26,4 +26,4 @@ class Card:
         self.value = Value(value)
 
     def __str__(self):
-        return f"(self.color,self.value)"
+        return f"{Color(self.color).name},{Value(self.value).name}"

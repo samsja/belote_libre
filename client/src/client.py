@@ -1,9 +1,9 @@
 import socketio
+import json
 
 sio = socketio.Client()
 
 
+sio.connect('http://localhost:8888')
 
-if __name__ == '__main__':
-    sio.connect('http://localhost:8888')
-    sio.emit('message', {'foo': 'bar'})
+sio.emit('play', (0,0))
