@@ -1,5 +1,5 @@
-from card import Color,Value,Card
-from deck import Deck
+from game_class.card import Color,Value,Card
+from game_class.deck import Deck
 
 
 

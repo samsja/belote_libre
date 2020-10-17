@@ -1,4 +1,4 @@
-from card import Color,Value,Card
+from game_class.card import Color,Value,Card
 from itertools import product
 import random
 
