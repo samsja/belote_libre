@@ -21,7 +21,6 @@ def get_hands(player):
         response=list_card_jsonify(g.hands[int(player)]),
         mimetype='application/json'
     )
-
     return response
 @socketio.on('message')
 def handle_message(message):
