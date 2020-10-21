@@ -1,5 +1,5 @@
 import flask
-import flask_socketio as socket
+import flask_socketio as socket,emit
 
 from game_class.game import Game
 from jsonifier import list_card_jsonify
@@ -45,8 +45,8 @@ def handle_play(card_index,player):
     logger.info(f"card_index:{card_index}, player: {player}")
     print(f"card_index:{card_index}, player: {player}")
 
-    g.play_a_card(g.hands[int(player)][int(card_index)],int(player))
-
+    play_allowed = g.play_a_card(g.hands[int(player)][int(card_index)],int(player))
+    # emit('play_allowed', play_allowed)
 
 
 if __name__ == '__main__':
