@@ -7,16 +7,23 @@ import json
 
 host = "localhost:8888"
 
-# sio = socketio.Client()
-# sio.connect('http://localhost:8888')
-# sio.emit('play', (0,0))
+sio = socketio.Client()
+sio.connect('http://localhost:8888')
 
 
-play = True
+stop = False
 
-while play:
-    screen_clear()
-    hand = r.get(f"http://{host}/hands/0")
+debug = True
+
+player_index = 0
+
+while not(stop):
+
+    if not(debug):
+        screen_clear()
+
+
+    hand = r.get(f"http://{host}/hands/{player_index}")
 
     hand_str = ""
     for card in hand.json():
@@ -27,11 +34,17 @@ while play:
 
     print(hand_str)
 
-
-
-
-    print("\n \nq : quit \n")
+    print("\n \nplay k-th cards")
     x = input()
 
-    if x=="q":
-        play = False
+    try :
+        x = int(x)
+    except ValueError:
+        pass
+
+    # if x=="q":
+    #     print("here")
+    #     stop = True
+
+    if x in range(1,9):
+        print(sio.emit('play', (x-1,player_index)))
