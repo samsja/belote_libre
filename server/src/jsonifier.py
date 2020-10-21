@@ -3,7 +3,7 @@ from game_class.game import Game
 from game_class.deck import Deck
 
 import json
-
+import copy
 
 
 
@@ -17,12 +17,16 @@ def  card_jsonify(card):
     return json.dumps(card, default=lambda card: card.__dict__)
 
 def list_card_jsonify(deck):
+
     D = {}
+    card_dict = {}
 
     for i,card in enumerate(deck):
-        card_dict = card.__dict__
+        card_dict = copy.deepcopy(card.__dict__)
         card_dict["color"] = Color(card_dict["color"]).name
         card_dict["value"] = Value(card_dict["value"]).name
+
+
 
         D[i]=card_dict
 

@@ -16,7 +16,7 @@ g = Game()
 
 @app.route('/')
 def root():
-    return "BWC (Belote World Championship) belt!"
+    return "BWC (Belote World Championship) belt! API"
 
 @app.route("/hands/<player>")
 def get_hands(player):
