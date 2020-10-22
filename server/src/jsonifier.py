@@ -16,18 +16,34 @@ def  card_jsonify(card):
 
     return json.dumps(card, default=lambda card: card.__dict__)
 
+def card_to_dict(card):
+    card_dict = {}
+    card_dict = copy.deepcopy(card.__dict__)
+    card_dict["color"] = Color(card_dict["color"]).name
+    card_dict["value"] = Value(card_dict["value"]).name
+
+    return card_dict
+
+
 def list_card_jsonify(deck):
 
     D = {}
-    card_dict = {}
 
     for i,card in enumerate(deck):
-        card_dict = copy.deepcopy(card.__dict__)
-        card_dict["color"] = Color(card_dict["color"]).name
-        card_dict["value"] = Value(card_dict["value"]).name
+        D[i]=card_to_dict(card)
 
+    return json.dumps(D)
 
+def trick_jsonify(trick):
 
-        D[i]=card_dict
+    D = {}
+    card_played_dict = {}
+
+    for i,card_played in enumerate(trick):
+        print(i)
+        card_played_dict["player"]=card_played.player
+        card_played_dict["card"]=card_to_dict(card_played.card)
+        D[i]=card_played_dict
+
 
     return json.dumps(D)

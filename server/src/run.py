@@ -3,7 +3,7 @@ import flask_socketio as socket
 
 
 from game_class.game import Game
-from jsonifier import list_card_jsonify
+from jsonifier import list_card_jsonify,trick_jsonify
 import json
 
 
@@ -25,12 +25,21 @@ def get_hands(player):
     )
     return response
 
+@app.route("/current_trick")
+def get_current_trick():
+
+    trick = g.tricks[-1]
+    response = app.response_class(
+        response=trick_jsonify(trick),
+        mimetype='application/json'
+    )
+    return response
+
 @app.route("/is_play_allowed/<player>",methods = ['POST'])
 def is_play_allowed(player):
 
     data = flask.request.json
 
-    print(data)
     player = int(player)
     is_allowed = {"result":g.validate_card(g.hands[player][data["card"]],player)}
     json_result = json.dumps(is_allowed)
@@ -40,19 +49,6 @@ def is_play_allowed(player):
         mimetype='application/json'
     )
     return response
-
-@app.route("/table/")
-def get_table():
-    str = ""
-
-    for i,trick in enumerate(g.tricks):
-        str = str + f"trick {i}\n"
-
-        for card_played in trick:
-            str = str + f"\n{card_played.player} play {card_played.card}\n"
-
-    return str
-
 
 
 @socketio.on('play')

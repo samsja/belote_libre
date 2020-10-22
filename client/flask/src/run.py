@@ -10,6 +10,12 @@ app = Flask(__name__,
             template_folder='web/templates')
 
 
+
+
+@app.route('/test/')
+def test():
+    print("test")
+
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -39,8 +45,6 @@ def play(player):
         value = hand.json()[card]["value"]
 
         Cards.append(get_path_card(color,value))
-    print(hand.json())
-    print(Cards)
     return render_template("hand.html", len = len(Cards), Cards = Cards)
 
 
