@@ -38,7 +38,14 @@ class Game:
         card -- a Card instance
         player -- an int for the player index
         """
-        return (card in self.hands[player])
+
+        if (not(isinstance(player,int)) or not(0<=player<self.nb_player)):
+            raise TypeError(f"player should be an integer between 0 and {self.nb_player} not {type(player)}")
+
+        if not(isinstance(card,Card)):
+            raise TypeError(f"card should be a Card not {type(card)}")
+
+        return (card in self.hands[player]) and (self.next_player == player)
 
     def _trick_winner(self,trick):
         """determine which player won the trick
@@ -60,7 +67,7 @@ class Game:
         if not(isinstance(card,Card)):
             raise TypeError(f"card should be a Card not {type(card)}")
 
-        if self._validate_card(card,player) and self.next_player == player:
+        if self._validate_card(card,player) :
             self.hands[player].remove(card)
             self.tricks[-1].append(CardPlayed(card,player))
 

@@ -1,12 +1,11 @@
 import flask
-import flask_socketio as socket,emit
+import flask_socketio as socket
+
 
 from game_class.game import Game
 from jsonifier import list_card_jsonify
+import json
 
-import logging
-logger = logging.getLogger("bwc")
-logger.setLevel("INFO")
 
 # Init the server
 app = flask.Flask(__name__)
@@ -22,6 +21,21 @@ def root():
 def get_hands(player):
     response = app.response_class(
         response=list_card_jsonify(g.hands[int(player)]),
+        mimetype='application/json'
+    )
+    return response
+
+@app.route("/is_play_allowed/<player>",methods = ['POST'])
+def is_play_allowed(player):
+
+    data = flask.request.json
+
+    player = int(player)
+    is_allowed = {"result":g._validate_card(g.hands[player][data["card"]],player)}
+    json_result = json.dumps(is_allowed)
+
+    response = app.response_class(
+        response=json_result,
         mimetype='application/json'
     )
     return response
@@ -42,11 +56,12 @@ def get_table():
 
 @socketio.on('play')
 def handle_play(card_index,player):
-    logger.info(f"card_index:{card_index}, player: {player}")
-    print(f"card_index:{card_index}, player: {player}")
-
     play_allowed = g.play_a_card(g.hands[int(player)][int(card_index)],int(player))
-    # emit('play_allowed', play_allowed)
+
+
+    print(f"card_index:{card_index}, player: {player}, allowed: {play_allowed}")
+
+    socketio.emit("play_allowed",play_allowed)
 
 
 if __name__ == '__main__':
