@@ -3,6 +3,8 @@ import flask_socketio as socket
 
 
 from game_class.game import Game
+from game_class.rules import basic_rules
+
 from jsonifier import list_card_jsonify,trick_jsonify
 import json
 
@@ -11,7 +13,7 @@ import json
 app = flask.Flask(__name__)
 socketio = socket.SocketIO(app, cors_allowed_origins="*",logger=True)
 
-g = Game()
+g = Game(basic_rules)
 
 @app.route('/')
 def root():

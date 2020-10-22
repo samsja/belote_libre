@@ -2,16 +2,21 @@ from game_class.card import Color,Value,Card
 from game_class.deck import Deck
 
 
+class Atout:
+
+    def __init__(self,color=0):
+        self.color = Color(color)
+
 
 class CardPlayed:
 
     def __init__(self,card,player):
-
         if not(isinstance(player,int)):
             raise TypeError(f"player should be an integer not {type(player)}")
 
         if not(isinstance(card,Card)):
-            raise TypeError(f"card should be a Card {type(card)}")
+            raise TypeError(f"card should be a Card not a {type(card)}")
+
 
         self.card = card
         self.player = player
@@ -23,14 +28,20 @@ class Game:
     nb_card_hand= 8
     nb_player = 4
 
-    def __init__(self):
+    def __init__(self,rules,atout = Atout()):
+        """Init a Game
+        Keyword arguments:
+        rules -- a list of AbstractRule
+        """
+
+        self.rules = rules
+        self.atout = atout
 
         self.deck = Deck(shuffle=True)
         self.hands = [ self.deck[self.nb_card_hand*i:self.nb_card_hand*(i+1)] for i in range(self.nb_player)]
         self.tricks = [[]]
 
         self.next_player = 0
-
         self.over = False
 
 
@@ -47,7 +58,17 @@ class Game:
         if not(isinstance(card,Card)):
             raise TypeError(f"card should be a Card not {type(card)}")
 
-        return (card in self.hands[player]) and (self.next_player == player) and (not(self.over))
+
+        allowed = (card in self.hands[player]) and (self.next_player == player) and (not(self.over))
+
+        if not(allowed):
+            return allowed
+
+        for rule in self.rules:
+            if not(rule.is_play_allowed(self,card,player)):
+                allowed=False
+                break
+        return allowed
 
     def _trick_winner(self,trick):
         """determine which player won the trick

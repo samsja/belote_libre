@@ -1,12 +1,9 @@
 from game_class.game import Game
+from game_class.rules import AbstractRule
 from jsonifier import list_card_jsonify,trick_jsonify
+from game_class.rules import basic_rules
 
-g = Game()
 
-i = 0
-while  g.play_a_card(g.hands[i][0],i):
-    i = (i+1)%4
-    if len(g.hands[i]) == 0:
-        break
+g = Game(basic_rules)
 
-print(len(g.tricks))
+r = AbstractRule()
