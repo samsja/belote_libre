@@ -19,6 +19,7 @@ def show_card(color,value):
     values["SEVEN"]="7"
     values["HEIGHT"]="8"
     values["NINE"]="9"
+    values["TEN"]="10"
 
     lower = True
     for key in values.keys():

@@ -8,7 +8,7 @@ import sys
 host = "localhost:8888"
 
 sio = socketio.Client()
-sio.connect('http://localhost:8888')
+sio.connect(f'http://{host}')
 
 
 stop = False
