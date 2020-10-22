@@ -65,7 +65,7 @@ def play(player_index):
     trick_str=[str((i-int(player_index))%4) for i in range(4)]
     print(trick_str)
 
-    return render_template("hand.html", Cards = Cards, trick = trick_cards, len_trick=len(trick_cards),trick_str=trick_str,player=player_index)
+    return render_template("hand.html", Cards = Cards, len_card=len(Cards),trick = trick_cards, len_trick=len(trick_cards),trick_str=trick_str,player=player_index)
 
 
 if __name__ == '__main__':
