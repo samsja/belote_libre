@@ -14,6 +14,15 @@ def home():
 def hand():
     return render_template('hand.html')
 
+@app.route('/play/<player>')
+def play(player):
+    return render_template('hand.html')
+
+@app.route('/test')
+def poke():
+    Cards =["7C", "8C", "9C","10C" ,"JC","QC", "KC", "AC"]
+
+    return render_template("hand.html", len = len(Cards), Cards = Cards)
 
 
 if __name__ == '__main__':
