@@ -32,7 +32,7 @@ class Game:
         self.next_player = 0
 
 
-    def _validate_card(self,card,player):
+    def validate_card(self,card,player):
         """Validate if a card could be play by the player
         Keyword arguments:
         card -- a Card instance
@@ -67,7 +67,7 @@ class Game:
         if not(isinstance(card,Card)):
             raise TypeError(f"card should be a Card not {type(card)}")
 
-        if self._validate_card(card,player) :
+        if self.validate_card(card,player) :
             self.hands[player].remove(card)
             self.tricks[-1].append(CardPlayed(card,player))
 

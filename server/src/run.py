@@ -30,8 +30,9 @@ def is_play_allowed(player):
 
     data = flask.request.json
 
+    print(data)
     player = int(player)
-    is_allowed = {"result":g._validate_card(g.hands[player][data["card"]],player)}
+    is_allowed = {"result":g.validate_card(g.hands[player][data["card"]],player)}
     json_result = json.dumps(is_allowed)
 
     response = app.response_class(
@@ -58,10 +59,13 @@ def get_table():
 def handle_play(card_index,player):
     play_allowed = g.play_a_card(g.hands[int(player)][int(card_index)],int(player))
 
+    response = {
+                "player":player,
+                "card_played"  :card_index,
+                "played": play_allowed
+               }
 
-    print(f"card_index:{card_index}, player: {player}, allowed: {play_allowed}")
-
-    socketio.emit("play_allowed",play_allowed)
+    socketio.emit("played",json.dumps(response))
 
 
 if __name__ == '__main__':
