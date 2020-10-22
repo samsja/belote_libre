@@ -26,7 +26,7 @@ class Game:
     def __init__(self):
 
         self.deck = Deck(shuffle=True)
-        self.hands = [ self.deck[i:self.nb_card_hand*(i+1)] for i in range(self.nb_player)]
+        self.hands = [ self.deck[self.nb_card_hand*i:self.nb_card_hand*(i+1)] for i in range(self.nb_player)]
         self.tricks = [[]]
 
         self.next_player = 0
