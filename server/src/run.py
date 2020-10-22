@@ -9,7 +9,7 @@ import json
 
 # Init the server
 app = flask.Flask(__name__)
-socketio = socket.SocketIO(app, logger=True)
+socketio = socket.SocketIO(app, cors_allowed_origins="*",logger=True)
 
 g = Game()
 

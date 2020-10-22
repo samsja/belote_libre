@@ -1,73 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/hand.css') }}">
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+  <script type="text/javascript" charset="utf-8">
+      var socket;
 
+      $(document).ready(function(){
+         socket = io.connect("http://localhost:8888/");
 
-body {
-  background-image:url(/background.jpg);
-  background-repeat: no-repeat;
-  background-size: cover; /* Resize the background image to cover the entire container */
-  /* background-position: center;  */
-   width: 1920px;
-   height: 1080px;
-}
+          socket.on('played', function() {
+              location.reload();
+          });
+      });
+      function play_a_card(card_index,player) {
+        socket.emit('play', card_index,player)
+      }
+      function test(player) {
+        console.log("test")
+        console.log(player)
+      }
+  </script>
 
-div.card {
-  transition: 0.3s;
-  border-radius: 5px;
-  width:180px;
-  height:290px;
-  float: left;
-}
-
-div.hand {
-  position: absolute;
-  top : 630px;
-  left: 180px;
-}
-
-div.trick {
-  position: absolute;
-  top : 200px;
-  left: 480px;
-}
-
-div.trick1 {
-  position: absolute;
-  top : 150px;
-  left: 500px;
-}
-
-div.trick3 {
-  position: absolute;
-  top : 150px;
-  left: 900px;
-}
-div.trick2 {
-  position: absolute;
-  top : 20px;
-  left: 700px;
-}
-
-div.trick0 {
-  position: absolute;
-  top : 320px;
-  left: 700px;
-}
-
-
-img {
-  border-radius: 5px 5px 0 0;
-}
-
-div.play {
-  top : 0px;
-  left: 1500px;
-}
-
-</style>
 </head>
 
 
@@ -93,11 +49,7 @@ div.play {
   {% endif %}
 {% endfor %}
 
-<!-- <div class="play">
-<a href=”/test><input type=”button” value=”call_flask_funtion”></a> </div> -->
-
-
-
+<button type="button" onclick="play_a_card(0,{{player}});">Play a card </button>
 
 </body>
 </html>
