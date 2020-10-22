@@ -83,16 +83,3 @@ class Game:
             return True
         else:
             return False
-
-
-''' test
-g = Game()
-i = 0
-while  g.play_a_card(g.hands[i][0],i):
-    #print(f"here {i}   {(len(g.tricks)-1)*4 + len(g.tricks[-1])}")
-    i = (i+1)%4
-    if len(g.hands[i]) == 0:
-        break
-
-print(len(g.tricks))
-'''

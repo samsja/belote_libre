@@ -35,6 +35,7 @@ def get_current_trick():
     )
     return response
 
+
 @app.route("/is_play_allowed/<player>",methods = ['POST'])
 def is_play_allowed(player):
 

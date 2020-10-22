@@ -1,7 +1,7 @@
 import socketio
 import json
 import requests as r
-from handler import screen_clear,show_card
+from handler import screen_clear,show_card,show_card_dict
 import json
 import sys
 
@@ -26,15 +26,32 @@ else:
 
 def play():
 
+    print( f"You are player {player_index}")
+
+    trick = r.get(f"http://{host}/current_trick")
+    trick_json = trick.json()
+
+
+    trick_cards= [{} for i in range(4)]
+    for key in trick_json.keys():
+        card_played = trick_json[key]
+        player = card_played["player"]
+        card = card_played["card"]
+        trick_cards[player]=card
+
+    trick_cards = [trick_cards[(player_index+i)%4] for i in range(4)]
+    print(f" {show_card_dict(trick_cards[2])} ")
+    print(f"{show_card_dict(trick_cards[1])}  {show_card_dict(trick_cards[3])}  ")
+    print(f" {show_card_dict(trick_cards[0])} ")
+    print(" \n")
+
+
     hand = r.get(f"http://{host}/hands/{player_index}")
 
-    print( f"You are player {player_index}")
     hand_str = ""
-    for card in hand.json():
-        color = hand.json()[card]["color"]
-        value = hand.json()[card]["value"]
-
-        hand_str = hand_str  + show_card(color,value) + " "
+    for key in hand.json():
+        card = hand.json()[key]
+        hand_str = hand_str  + show_card_dict(card) + " "
 
     print(hand_str)
 

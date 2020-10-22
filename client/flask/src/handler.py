@@ -1,4 +1,6 @@
-def get_path_card(color,value):
+def get_path_card(card):
+    color = card["color"]
+    value = card["value"]
 
     color = color[0]
 

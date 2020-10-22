@@ -11,6 +11,9 @@ def screen_clear():
 
 from unicards import unicard
 
+
+
+
 def show_card(color,value):
 
     color = color[0].lower()
@@ -34,3 +37,13 @@ def show_card(color,value):
     str =  unicard(value+color, color=True)
 
     return str
+
+
+def show_card_dict(card):
+
+    if len(card) == 0:
+        return ""
+
+    color =  card["color"]
+    value = card["value"]
+    return show_card(color,value)

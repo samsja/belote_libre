@@ -43,7 +43,7 @@ def trick_jsonify(trick):
         print(i)
         card_played_dict["player"]=card_played.player
         card_played_dict["card"]=card_to_dict(card_played.card)
-        D[i]=card_played_dict
+        D[i]=copy.deepcopy(card_played_dict)
 
 
     return json.dumps(D)
