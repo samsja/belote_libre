@@ -31,6 +31,8 @@ class Game:
 
         self.next_player = 0
 
+        self.over = False
+
 
     def validate_card(self,card,player):
         """Validate if a card could be play by the player
@@ -45,7 +47,7 @@ class Game:
         if not(isinstance(card,Card)):
             raise TypeError(f"card should be a Card not {type(card)}")
 
-        return (card in self.hands[player]) and (self.next_player == player)
+        return (card in self.hands[player]) and (self.next_player == player) and (not(self.over))
 
     def _trick_winner(self,trick):
         """determine which player won the trick
@@ -67,18 +69,20 @@ class Game:
         if not(isinstance(card,Card)):
             raise TypeError(f"card should be a Card not {type(card)}")
 
+        if len(self.tricks)>=self.nb_trick:
+            self.over = True
+
         if self.validate_card(card,player) :
+            if len(self.tricks[-1]) == self.nb_player:
+                self.tricks.append([])
+
             self.hands[player].remove(card)
             self.tricks[-1].append(CardPlayed(card,player))
 
-            self.next_player = (self.next_player +1)%self.nb_player
-
             if len(self.tricks[-1]) == self.nb_player:
-
-                if len(self.tricks)<self.nb_trick:
-                    self.tricks.append([])
-
                 self.next_player = self._trick_winner(self.tricks[-1])
+            else:
+                self.next_player = (self.next_player +1)%self.nb_player
 
             return True
         else:
