@@ -8,7 +8,6 @@
   <script type="text/javascript" charset="utf-8">
       var socket;
 
-      const Http = new XMLHttpRequest();
       const host='http://localhost:8888/';
 
 
@@ -20,12 +19,17 @@
           });
       });
       function play_a_card(card_index,player) {
+        let Http = new XMLHttpRequest();
+
         if(Http) {
           Http.onreadystatechange = function() {
                 if (Http.readyState == XMLHttpRequest.DONE) {
                     var jsonResponse = Http.response;
                     if(jsonResponse["result"]){
                       socket.emit('play', card_index,player)
+                    }
+                    else{
+                      console.log("You can't play that card")
                     }
                 }
             }
