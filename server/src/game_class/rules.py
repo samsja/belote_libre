@@ -1,4 +1,5 @@
-from game_class.card import Color,Value,Card,ComparabaleValue
+from game_class.card import Color,Value,Card
+from game_class.comparable import ComparabaleValue
 
 
 class AbstractRule:

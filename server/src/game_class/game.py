@@ -1,6 +1,7 @@
-from game_class.card import Color,Value,Card,CardPlayed,trick_winner
+from game_class.card import Color,Value,Card,CardPlayed
 from game_class.deck import Deck
 from game_class.trick import Trick
+from game_class.hand import Hand
 
 
 class Atout:
@@ -18,7 +19,7 @@ class Game:
     nb_card_hand= 8
     nb_player = 4
 
-    def __init__(self,rules,atout = Atout()):
+    def __init__(self,rules,atout = Atout(),order_hands=True):
         """Init a Game
         Keyword arguments:
         rules -- a list of AbstractRule
@@ -26,14 +27,23 @@ class Game:
 
         self.rules = rules
         self.atout = atout
+        self.order_hands = order_hands
+
 
         self.deck = Deck(shuffle=True)
-        self.hands = [ self.deck[self.nb_card_hand*i:self.nb_card_hand*(i+1)] for i in range(self.nb_player)]
+        self.hands = [ Hand(self.deck[self.nb_card_hand*i:self.nb_card_hand*(i+1)]) for i in range(self.nb_player)]
+        del self.deck
+        self.do_order_hands()
+
         self.tricks = [Trick([])]
 
         self.next_player = 0
         self.over = False
 
+    def do_order_hands(self):
+        if self.order_hands:
+            for hand in self.hands:
+                hand.order(self.atout.color)
 
     def validate_card(self,card,player):
         """Validate if a card could be play by the player
@@ -60,6 +70,9 @@ class Game:
             if not(rule.is_play_allowed(self,card,player)):
                 allowed=False
                 break
+
+        if allowed:
+            self.do_order_hands()
 
         return allowed
 

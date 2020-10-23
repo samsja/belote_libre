@@ -1,8 +1,9 @@
 from game_class.game import Game
 from game_class.rules import AbstractRule
 from game_class.rules import basic_rules
-from game_class.card import Color,Value,Card,ComparabaleValue,trick_winner,CardPlayed
+from game_class.card import Color,Value,Card,trick_winner,CardPlayed
 from game_class.trick import Trick
+from game_class.comparable import ComparabaleValue
 
 from jsonifier import list_card_jsonify,trick_jsonify
 

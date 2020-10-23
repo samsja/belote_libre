@@ -1,4 +1,5 @@
-from game_class.card import Color,Value,Card,ComparabaleValue,CardPlayed
+from game_class.card import Color,Value,Card,CardPlayed
+from game_class.comparable import ComparabaleValue
 
 
 class Trick:
