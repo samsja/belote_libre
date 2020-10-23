@@ -1,5 +1,6 @@
 from game_class.card import Color,Value,Card,CardPlayed,trick_winner
 from game_class.deck import Deck
+from game_class.trick import Trick
 
 
 class Atout:
@@ -28,7 +29,7 @@ class Game:
 
         self.deck = Deck(shuffle=True)
         self.hands = [ self.deck[self.nb_card_hand*i:self.nb_card_hand*(i+1)] for i in range(self.nb_player)]
-        self.tricks = [[]]
+        self.tricks = [Trick([])]
 
         self.next_player = 0
         self.over = False
@@ -46,9 +47,6 @@ class Game:
 
         if not(isinstance(card,Card)):
             raise TypeError(f"card should be a Card not {type(card)}")
-
-
-            return True
 
         allowed = (card in self.hands[player]) and (self.next_player == player) and (not(self.over))
 
@@ -90,13 +88,18 @@ class Game:
 
         if self.validate_card(card,player) :
             if len(self.tricks[-1]) == self.nb_player:
-                self.tricks.append([])
+
+                print(len(self.tricks[-1]),len(self.tricks))
+                new_empty_trick = Trick([])
+                print(f"new empty trick lenght {len(new_empty_trick)}")
+                self.tricks.append(new_empty_trick)
+                print(len(self.tricks[-1]),len(self.tricks))
 
             self.hands[player].remove(card)
             self.tricks[-1].append(CardPlayed(card,player))
 
             if len(self.tricks[-1]) == self.nb_player:
-                self.next_player = self._trick_winner(self.tricks[-1])
+                self.next_player = self.tricks[-1].winner(atout_color=self.atout.color)
             else:
                 self.next_player = (self.next_player +1)%self.nb_player
 

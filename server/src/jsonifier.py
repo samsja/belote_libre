@@ -40,7 +40,6 @@ def trick_jsonify(trick):
     card_played_dict = {}
 
     for i,card_played in enumerate(trick):
-        print(i)
         card_played_dict["player"]=card_played.player
         card_played_dict["card"]=card_to_dict(card_played.card)
         D[i]=copy.deepcopy(card_played_dict)
