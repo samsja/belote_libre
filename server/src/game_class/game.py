@@ -48,10 +48,12 @@ class Game:
             raise TypeError(f"card should be a Card not {type(card)}")
 
 
-        if len(self.tricks[-1])==self.nb_player or len(self.tricks[-1])==0 :
             return True
 
         allowed = (card in self.hands[player]) and (self.next_player == player) and (not(self.over))
+
+        if allowed and (len(self.tricks[-1])==self.nb_player or len(self.tricks[-1])==0 ):
+            return True
 
         if not(allowed):
             return allowed
