@@ -86,36 +86,40 @@ def is_better(value1,value2,atout=False):
         return i1>i2
 
 
-class ComparabaleCard(Card):
+class ComparabaleValue:
 
-    def __init__(self,card,atout=False):
-        super().__init__(card.color.value,card.value.value)
-        self.atout = atout
+    def __init__(self,value,atout=False):
+        self.value = value
 
-        if self.atout:
+        if atout:
             self.order = atout_order
         else:
             self.order = normal_order
 
-        self.index_order = order.index(self.value)
-
-    def __lt__(self, other):
-        return self.value < other.value
-
-    def __le__(self, other):
-        return self.value <= other.value
-
-    def __eq__(self, other):
-        return self.value == other.value
-
-    def __ne__(self, other):
-        return self.value != other.value
+        self.i1 = self.order.index(self.value)
 
     def __gt__(self, other):
-        return self.value > other.value
+        i2 = self.order.index(other)
+        return self.i1>i2
 
     def __ge__(self, other):
-        return self.value >= other.value
+        i2 = self.order.index(other)
+        return self.i1>=i2
+
+    def __lt__(self, other):
+        i2 = self.order.index(other)
+        return self.i1<i2
+
+    def __le__(self, other):
+        i2 = self.order.index(other)
+        return self.i1<=i2
+
+    def __eq__(self, other):
+        i2 = self.order.index(other)
+        return self.i1==i2
+
+    def __ne__(self, other):
+        return not(self.__eq__(other))
 
 
 def trick_winner(trick):

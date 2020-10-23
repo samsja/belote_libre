@@ -1,4 +1,4 @@
-from game_class.card import Color,Value,Card,is_better
+from game_class.card import Color,Value,Card,ComparabaleValue
 
 
 class AbstractRule:
@@ -59,12 +59,12 @@ class GoUpAtout(AbstractRule):
         if main_color == game.atout.color:
             has_better= False
             for card_in_hand in game.hands[player]:
-                if (card_in_hand.color == game.atout.color) and is_better(card_in_hand.value,game.tricks[-1][-1].card.value,atout=True):
+                if (card_in_hand.color == game.atout.color) and (ComparabaleValue(card_in_hand.value,atout=True)>game.tricks[-1][-1].card.value) :
                     has_better = True
                     break
             print(has_better)
             if has_better:
-                return is_better(card.value,game.tricks[-1][-1].card.value,atout=True)
+                return ComparabaleValue(card.value,atout=True) > game.tricks[-1][-1].card.value
             else:
                 return True
         else:
