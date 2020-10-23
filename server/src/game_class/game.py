@@ -106,3 +106,10 @@ class Game:
             return True
         else:
             return False
+
+    @staticmethod
+    def get_co_player(player):
+        if (not(isinstance(player,int)) or not(0<=player<Game.nb_player)):
+            raise TypeError(f"player should be an integer between 0 and {Game.nb_player} not {type(player)}")
+
+        return (player+2)%Game.nb_player

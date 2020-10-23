@@ -31,6 +31,11 @@ class BasicColorRule(AbstractRule):
         main_color = game.tricks[-1][0].card.color
 
         if card.color != main_color:
+
+            if (game.tricks[-1].winner(atout_color=game.atout.color) == game.get_co_player(player)) and (main_color != game.atout):
+                # allow "pisser" when co player is master
+                return True
+
             had_main_color = False
             had_atout = False
             for card_in_hand in game.hands[player]:
@@ -57,6 +62,7 @@ class GoUpAtout(AbstractRule):
         main_color = game.tricks[-1][0].card.color
 
         if main_color == game.atout.color:
+
             has_better= False
             for card_in_hand in game.hands[player]:
                 if (card_in_hand.color == game.atout.color) and (ComparabaleValue(card_in_hand.value,atout=True)>game.tricks[-1][-1].card.value) :
