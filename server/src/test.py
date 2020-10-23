@@ -1,7 +1,9 @@
 from game_class.game import Game
 from game_class.rules import AbstractRule
-from jsonifier import list_card_jsonify,trick_jsonify
 from game_class.rules import basic_rules
+from game_class.card import Color,Value,Card,is_better
+
+from jsonifier import list_card_jsonify,trick_jsonify
 
 
 g = Game(basic_rules)

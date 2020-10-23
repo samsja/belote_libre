@@ -1,4 +1,4 @@
-from game_class.card import Color,Value,Card
+from game_class.card import Color,Value,Card,is_better
 
 
 class AbstractRule:
@@ -28,10 +28,6 @@ class BasicColorRule(AbstractRule):
     def is_play_allowed(self,game,card,player):
         super().is_play_allowed(game,card,player)
 
-
-        if len(game.tricks[-1])==game.nb_player or len(game.tricks[-1])==0 :
-            return True
-
         main_color = game.tricks[-1][0].card.color
 
         if card.color != main_color:
@@ -53,5 +49,27 @@ class BasicColorRule(AbstractRule):
         else:
             return True
 
+class GoUpAtout(AbstractRule):
 
-basic_rules = [AbstractRule(),BasicColorRule()]
+    def is_play_allowed(self,game,card,player):
+        super().is_play_allowed(game,card,player)
+
+        main_color = game.tricks[-1][0].card.color
+
+        if main_color == game.atout.color:
+            has_better= False
+            for card_in_hand in game.hands[player]:
+                if (card_in_hand.color == game.atout.color) and is_better(card_in_hand.value,game.tricks[-1][-1].card.value,atout=True):
+                    has_better = True
+                    break
+            print(has_better)
+            if has_better:
+                return is_better(card.value,game.tricks[-1][-1].card.value,atout=True)
+            else:
+                return True
+        else:
+            return True
+
+
+
+basic_rules = [AbstractRule(),BasicColorRule(),GoUpAtout()]

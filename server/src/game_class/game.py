@@ -1,4 +1,4 @@
-from game_class.card import Color,Value,Card
+from game_class.card import Color,Value,Card,CardPlayed
 from game_class.deck import Deck
 
 
@@ -8,18 +8,7 @@ class Atout:
         self.color = Color(color)
 
 
-class CardPlayed:
 
-    def __init__(self,card,player):
-        if not(isinstance(player,int)):
-            raise TypeError(f"player should be an integer not {type(player)}")
-
-        if not(isinstance(card,Card)):
-            raise TypeError(f"card should be a Card not a {type(card)}")
-
-
-        self.card = card
-        self.player = player
 
 
 class Game:
@@ -59,6 +48,9 @@ class Game:
             raise TypeError(f"card should be a Card not {type(card)}")
 
 
+        if len(self.tricks[-1])==self.nb_player or len(self.tricks[-1])==0 :
+            return True
+
         allowed = (card in self.hands[player]) and (self.next_player == player) and (not(self.over))
 
         if not(allowed):
@@ -68,6 +60,7 @@ class Game:
             if not(rule.is_play_allowed(self,card,player)):
                 allowed=False
                 break
+
         return allowed
 
     def _trick_winner(self,trick):

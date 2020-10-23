@@ -25,5 +25,98 @@ class Card:
         self.color = Color(color)
         self.value = Value(value)
 
+
     def __str__(self):
         return f"{Color(self.color).name},{Value(self.value).name}"
+
+
+
+class CardPlayed:
+
+    def __init__(self,card,player):
+        if not(isinstance(player,int)):
+            raise TypeError(f"player should be an integer not {type(player)}")
+
+        if not(isinstance(card,Card)):
+            raise TypeError(f"card should be a Card not a {type(card)}")
+
+
+        self.card = card
+        self.player = player
+
+
+normal_order = [ Value.SEVEN,
+                Value.HEIGHT,
+                Value.NINE,
+                Value.JACK,
+                Value.QUEEN,
+                Value.KING,
+                Value.TEN,
+                Value.AS,
+    ]
+
+atout_order = [ Value.SEVEN,
+                Value.HEIGHT,
+                Value.QUEEN,
+                Value.KING,
+                Value.TEN,
+                Value.AS,
+                Value.NINE,
+                Value.JACK,
+    ]
+
+def is_better(value1,value2,atout=False):
+    """Return True if value1 is better than Value2
+    Keyword arguments:
+    value1 -- a Value enum
+    value2 -- a Value enum
+    atout -- Boolean , default : False , tell if we need to take atout order
+    """
+    if atout:
+        order = atout_order
+    else:
+        order = normal_order
+
+    if value1 == value2:
+        return False
+    else:
+        i1 = order.index(value1.value)
+        i2 = order.index(value2.value)
+
+        return i1>i2
+
+
+class ComparabaleCard(Card):
+
+    def __init__(self,card,atout=False):
+        super().__init__(card.color.value,card.value.value)
+        self.atout = atout
+
+        if self.atout:
+            self.order = atout_order
+        else:
+            self.order = normal_order
+
+        self.index_order = order.index(self.value)
+
+    def __lt__(self, other):
+        return self.value < other.value
+
+    def __le__(self, other):
+        return self.value <= other.value
+
+    def __eq__(self, other):
+        return self.value == other.value
+
+    def __ne__(self, other):
+        return self.value != other.value
+
+    def __gt__(self, other):
+        return self.value > other.value
+
+    def __ge__(self, other):
+        return self.value >= other.value
+
+
+def trick_winner(trick):
+    pass
