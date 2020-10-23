@@ -60,31 +60,27 @@ class ComparabaleValue:
 
 class ComparabaleCard:
 
-    def __init__(self,card):
+    def __init__(self,card,atout=False):
         if not(isinstance(card,Card)):
             raise TypeError(f"card should be a Card not a {type(card)}")
 
         self.card = card
+        self.atout = atout
 
     def __gt__(self, other):
-        i2 = self.order.index(other)
-        return self.i1>i2
+        return ComparabaleValue(self.card.value,atout=self.atout)>ComparabaleValue(other.card.value,atout=self.atout)
 
     def __ge__(self, other):
-        i2 = self.order.index(other)
-        return self.i1>=i2
+        return ComparabaleValue(self.card.value,atout=self.atout)>=ComparabaleValue(other.card.value,atout=self.atout)
 
     def __lt__(self, other):
-        i2 = self.order.index(other)
-        return self.i1<i2
+        return ComparabaleValue(self.card.value,atout=self.atout)<ComparabaleValue(other.card.value,atout=self.atout)
 
     def __le__(self, other):
-        i2 = self.order.index(other)
-        return self.i1<=i2
+        return ComparabaleValue(self.card.value,atout=self.atout)>=ComparabaleValue(other.card.value,atout=self.atout)
 
     def __eq__(self, other):
-        i2 = self.order.index(other)
-        return self.i1==i2
+        return ComparabaleValue(self.card.value,atout=self.atout)==ComparabaleValue(other.card.value,atout=self.atout)
 
     def __ne__(self, other):
         return not(self.__eq__(other))

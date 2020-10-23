@@ -3,7 +3,7 @@ from game_class.rules import AbstractRule
 from game_class.rules import basic_rules
 from game_class.card import Color,Value,Card,trick_winner,CardPlayed
 from game_class.trick import Trick
-from game_class.comparable import ComparabaleValue
+from game_class.comparable import ComparabaleValue,ComparabaleCard
 
 from jsonifier import list_card_jsonify,trick_jsonify
 

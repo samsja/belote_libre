@@ -31,7 +31,7 @@ class Game:
 
 
         self.deck = Deck(shuffle=True)
-        self.hands = [ Hand(self.deck[self.nb_card_hand*i:self.nb_card_hand*(i+1)]) for i in range(self.nb_player)]
+        self.hands = [ Hand(self.deck[self.nb_card_hand*i:self.nb_card_hand*(i+1)],atout=self.atout.color) for i in range(self.nb_player)]
         del self.deck
         self.do_order_hands()
 

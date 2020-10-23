@@ -1,17 +1,18 @@
 from game_class.card import Color,Value,Card
-from game_class.comparable import ComparabaleValue
+from game_class.comparable import ComparabaleValue,ComparabaleCard
 
 import copy
 
 class Hand:
 
-    def __init__(self,hand=[]):
+    def __init__(self,hand,atout):
 
         for card in hand:
             if not(isinstance(card,Card)):
                 raise TypeError(f"card should be a Card not {type(card)}")
 
         self.set = copy.deepcopy(hand)
+        self.atout = atout
 
     def __getitem__(self,key):
         return self.set[key]
@@ -23,7 +24,16 @@ class Hand:
         return self.set.remove(card)
 
     def _order_little_hand(self,little_hand):
-        pass
+        if len(little_hand) == 0:
+            return False
+
+
+        atout = (little_hand[0].color == self.atout)
+        comparable_little_hand = [ComparabaleCard(card,atout=atout) for card in little_hand]
+        comparable_little_hand.sort()
+
+        little_hand = [card.card for card in comparable_little_hand ]
+        return little_hand
 
     def order(self,atout_color):
 
@@ -33,7 +43,7 @@ class Hand:
             hand_per_color[card.color.value].append(card)
 
         for little_hand in hand_per_color:
-            self._order_little_hand(little_hand)
+            little_hand = self._order_little_hand(little_hand)
 
         self.set = hand_per_color[Color.SPADE.value] + \
                    hand_per_color[Color.HEART.value] + \
