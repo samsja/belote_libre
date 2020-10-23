@@ -1,6 +1,6 @@
 import flask
 import flask_socketio as socket
-
+from flask_cors import CORS
 
 from game_class.game import Game
 from game_class.rules import basic_rules
@@ -11,6 +11,8 @@ import json
 
 # Init the server
 app = flask.Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
+
 socketio = socket.SocketIO(app, cors_allowed_origins="*",logger=True)
 
 g = Game(basic_rules)

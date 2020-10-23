@@ -8,6 +8,10 @@
   <script type="text/javascript" charset="utf-8">
       var socket;
 
+      const Http = new XMLHttpRequest();
+      const host='http://localhost:8888/';
+
+
       $(document).ready(function(){
          socket = io.connect("http://localhost:8888/");
 
@@ -16,12 +20,26 @@
           });
       });
       function play_a_card(card_index,player) {
-        socket.emit('play', card_index,player)
+        if(Http) {
+          Http.onreadystatechange = function() {
+                if (Http.readyState == XMLHttpRequest.DONE) {
+                    var jsonResponse = Http.response;
+                    if(jsonResponse["result"]){
+                      socket.emit('play', card_index,player)
+                    }
+                }
+            }
+            Http.responseType = 'json';
+            Http.open('POST',  host+"is_play_allowed/"+player, true);
+            Http.setRequestHeader("Content-Type", "application/json");
+            var data = JSON.stringify({"card": card_index});
+            Http.send(data);
+        }
       }
-      function test(player) {
-        console.log("test")
-        console.log(player)
-      }
+
+
+
+
   </script>
 
 </head>
@@ -35,7 +53,6 @@
   <div class="card">
         <img src="{{ url_for('static', filename='card_game/'+Cards[i]+'.png') }}" align="left" alt="{{card}}" style="width:100%;height:100%" onclick="play_a_card({{i}},{{player}});">
   </div>
-  <!-- <button type="button" onclick="play_a_card({{i}},{{player}});">{{Cards[i]}} </button> -->
   {% endfor %}
 </div>
 
@@ -49,6 +66,8 @@
   </div>
   {% endif %}
 {% endfor %}
+
+<!-- <button type="button" onclick="is_play_allowed(0,{{player}});">Test </button> -->
 
 </body>
 </html>
