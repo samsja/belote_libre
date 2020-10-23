@@ -1,4 +1,4 @@
-from game_class.card import Color,Value,Card,CardPlayed
+from game_class.card import Color,Value,Card,CardPlayed,trick_winner
 from game_class.deck import Deck
 
 
@@ -70,7 +70,7 @@ class Game:
         Keyword arguments:
         trick -- a 4 long list of player_card
         """
-        return 0
+        return trick_winner(trick,self.atout.color)
 
     def play_a_card(self,card,player):
         """A player play a card.

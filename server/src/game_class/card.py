@@ -65,26 +65,6 @@ atout_order = [ Value.SEVEN,
                 Value.JACK,
     ]
 
-def is_better(value1,value2,atout=False):
-    """Return True if value1 is better than Value2
-    Keyword arguments:
-    value1 -- a Value enum
-    value2 -- a Value enum
-    atout -- Boolean , default : False , tell if we need to take atout order
-    """
-    if atout:
-        order = atout_order
-    else:
-        order = normal_order
-
-    if value1 == value2:
-        return False
-    else:
-        i1 = order.index(value1.value)
-        i2 = order.index(value2.value)
-
-        return i1>i2
-
 
 class ComparabaleValue:
 
@@ -122,5 +102,36 @@ class ComparabaleValue:
         return not(self.__eq__(other))
 
 
-def trick_winner(trick):
-    pass
+def trick_winner(trick,atout_color):
+    if len(trick) == 0:
+        raise ValueError(f" the trick is empty {trick}")
+
+
+    main_color = trick[0].card.color
+
+    main_color_cards_played = []
+    atout_color_cards_played= []
+
+    for card_played in trick:
+        if card_played.card.color == main_color:
+            main_color_cards_played.append(card_played)
+        if card_played.card.color == atout_color:
+            atout_color_cards_played.append(card_played)
+
+    if len(atout_color_cards_played) > 0:
+        values = []
+        for card_played in atout_color_cards_played:
+            values.append(ComparabaleValue(card_played.card.value,atout=True))
+
+        winner = values.index(max(values)) ## arggh no arg max is python :( not very effective thow
+        return atout_color_cards_played[winner].player
+
+    elif len(main_color_cards_played) > 0:
+        values = []
+        for card_played in main_color_cards_played:
+            values.append(ComparabaleValue(card_played.card.value,atout=False))
+
+        winner = values.index(max(values)) ## arggh no arg max is python :( not very effective thow
+        return main_color_cards_played[winner].player
+    else:
+        raise ValueError("we are missing some color here")

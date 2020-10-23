@@ -62,7 +62,6 @@ class GoUpAtout(AbstractRule):
                 if (card_in_hand.color == game.atout.color) and (ComparabaleValue(card_in_hand.value,atout=True)>game.tricks[-1][-1].card.value) :
                     has_better = True
                     break
-            print(has_better)
             if has_better:
                 return ComparabaleValue(card.value,atout=True) > game.tricks[-1][-1].card.value
             else:
