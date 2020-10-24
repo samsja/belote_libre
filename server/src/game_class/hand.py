@@ -25,25 +25,25 @@ class Hand:
 
     def _order_little_hand(self,little_hand):
         if len(little_hand) == 0:
-            return False
+            return little_hand
 
 
         atout = (little_hand[0].color == self.atout)
         comparable_little_hand = [ComparabaleCard(card,atout=atout) for card in little_hand]
-        comparable_little_hand.sort()
+        comparable_little_hand.sort(reverse=True)
 
         little_hand = [card.card for card in comparable_little_hand ]
         return little_hand
 
-    def order(self,atout_color):
+    def order(self):
 
         hand_per_color = [[] for i in range(4)]
 
         for card in self:
             hand_per_color[card.color.value].append(card)
 
-        for little_hand in hand_per_color:
-            little_hand = self._order_little_hand(little_hand)
+        for i,little_hand in enumerate(hand_per_color):
+            hand_per_color[i] = self._order_little_hand(little_hand)
 
         self.set = hand_per_color[Color.SPADE.value] + \
                    hand_per_color[Color.HEART.value] + \

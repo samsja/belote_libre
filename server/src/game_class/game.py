@@ -43,7 +43,7 @@ class Game:
     def do_order_hands(self):
         if self.order_hands:
             for hand in self.hands:
-                hand.order(self.atout.color)
+                hand.order()
 
     def validate_card(self,card,player):
         """Validate if a card could be play by the player
