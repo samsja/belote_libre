@@ -84,7 +84,7 @@ class Game:
         return trick_winner(trick,self.atout.color)
 
     def play_a_card(self,card,player):
-        """A player play a card.
+        """A player play a card.    
         Keyword arguments:
         card -- a Card instance
         player -- an int for the player index
@@ -96,7 +96,7 @@ class Game:
         if not(isinstance(card,Card)):
             raise TypeError(f"card should be a Card not {type(card)}")
 
-        if len(self.tricks)>=self.nb_trick:
+        if len(self.tricks)>=self.nb_trick and len(self.tricks[-1])==self.nb_player:
             self.over = True
 
         if self.validate_card(card,player) :
