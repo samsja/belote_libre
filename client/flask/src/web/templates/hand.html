@@ -39,7 +39,12 @@
             var data = JSON.stringify({"card": card_index});
             Http.send(data);
         }
-      }
+      };
+      function bet(value,color,player) {
+        console.log("here")
+      };
+
+
 
 
 
@@ -71,7 +76,23 @@
   {% endif %}
 {% endfor %}
 
-<!-- <button type="button" onclick="is_play_allowed(0,{{player}});">Test </button> -->
+
+<select name="bets" id="pet-select">
+  <option value="">--Please choose an bet--</option>
+  {%for bet in bets_available%}
+    <option value="{{bet}}">{{bet}}</option>
+  {% endfor %}
+</select>
+
+<select name="color" id="pet-select">
+  <option value="">--Please choose an color--</option>
+  {%for color in colors%}
+    <option value="{{color}}">{{color}}</option>
+  {% endfor %}
+</select>
+
+<!-- <button type="button" onclick="bet(0,"DIAMOND",0);">bet </button> -->
+
 
 </body>
 </html>

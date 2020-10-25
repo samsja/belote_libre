@@ -60,7 +60,16 @@ def play(player_index):
 
     trick_str=[str((i-int(player_index))%4) for i in range(4)]
 
-    return render_template("hand.html", Cards = Cards, len_card=len(Cards),trick = trick_cards, len_trick=len(trick_cards),trick_str=trick_str,player=player_index)
+    return render_template("hand.html",
+                            Cards = Cards,
+                            len_card=len(Cards),
+                            trick = trick_cards,
+                            len_trick=len(trick_cards),
+                            trick_str=trick_str,
+                            player=player_index,
+                            bets_available = ["pass","coinche"] + [str(80 + 10*i) for i in range(9)] + ["250","270","500"],
+                            colors = ["SPADE","CLUB","HEART","DIAMOND"]
+                           )
 
 
 if __name__ == '__main__':
