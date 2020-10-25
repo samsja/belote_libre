@@ -1,4 +1,4 @@
-from game_class.game import Game
+from game_class.game import Game,Atout
 from game_class.card import Color
 
 bet_allowed = [80 + 10*i for i in range(9)] + [0,250,270,500,float('inf')]
@@ -40,11 +40,23 @@ class Coinche:
         self.next_player = 0
         self.bets = []
         self.over = False
+        self.game = Game(self.rules)
 
 
     def _create_game(self):
-        print("_create_game")
         self.over = True
+
+        atout_color = None
+        print(type(self.bets))
+        for i  in range(len(self.bets)):
+            bet = self.bets[-i]
+            if not(bet.value in [0,float("inf")]):
+                atout_color = bet.color
+                break
+
+        self.game.atout = Atout(color=atout_color)
+
+
 
     def _is_coinchable(self):
         is_coinchable = False
@@ -61,13 +73,21 @@ class Coinche:
 
         if len(self.bets)>=4:
             all_passed = True
-            for last_bet in self.bets[-4:-2]: #last three players
+            for last_bet in self.bets[-3:-1]: #last three players
                 all_passed = all_passed and  (last_bet.value == 0)
         else:
             all_passed = False
 
-        if (bet.value == float('inf')) or all_passed:
+        if (bet.value == float('inf')):
             self._create_game()
+
+        if  all_passed:
+            if (len(self.bets) == 4) and (self.bets[0].value == 0):
+                self.__init__(self.rules)
+            else:
+                self._create_game()
+
+
 
 
 
