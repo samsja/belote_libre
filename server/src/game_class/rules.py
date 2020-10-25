@@ -60,17 +60,23 @@ class GoUpAtout(AbstractRule):
     def is_play_allowed(self,game,card,player):
         super().is_play_allowed(game,card,player)
 
-        main_color = game.tricks[-1][0].card.color
+        trick_atout_comparable_values = []
+        for card_played in game.tricks[-1]:
+            if card_played.card.color == game.atout.color:
+                trick_atout_comparable_values.append(ComparabaleValue(card_played.card.value,atout=True))
 
-        if main_color == game.atout.color:
+
+        if len(trick_atout_comparable_values)>0:
 
             has_better= False
+            max_trick_atout_value = max(trick_atout_comparable_values)
             for card_in_hand in game.hands[player]:
-                if (card_in_hand.color == game.atout.color) and (ComparabaleValue(card_in_hand.value,atout=True)>game.tricks[-1][-1].card.value) :
+                if (card_in_hand.color == game.atout.color) and (ComparabaleValue(card_in_hand.value,atout=True)>max_trick_atout_value) :
                     has_better = True
                     break
+
             if has_better:
-                return ComparabaleValue(card.value,atout=True) > game.tricks[-1][-1].card.value
+                return ComparabaleValue(card.value,atout=True) > max_trick_atout_value
             else:
                 return True
         else:

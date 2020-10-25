@@ -10,55 +10,18 @@ from game_class.comparable import ComparabaleValue,ComparabaleCard
 from jsonifier import list_card_jsonify,trick_jsonify
 
 
-g = Game(basic_rules)
+g = Game(basic_rules,order_hands=False)
 
+g.hands[0] = Hand([Card(Color.SPADE,Value.NINE),
+          Card(Color.SPADE,Value.HEIGHT)],atout=Color.DIAMOND)
 
-h = Hand([Card(Color.SPADE,Value.AS),
-          Card(Color.SPADE,Value.HEIGHT),
-          Card(Color.SPADE,Value.NINE),
-          Card(Color.SPADE,Value.KING)],atout=Color.DIAMOND)
+g.hands[1] = Hand([Card(Color.DIAMOND,Value.KING),
+          Card(Color.DIAMOND,Value.HEIGHT)],atout=Color.DIAMOND)
 
+g.hands[2] =  Hand([Card(Color.DIAMOND,Value.SEVEN),
+          Card(Color.DIAMOND,Value.NINE)],atout=Color.DIAMOND)
 
-little_hand = h._order_little_hand(h)
+g.play_a_card(g.hands[0][0],0)
+g.play_a_card(g.hands[1][0],1)
 
-for card in little_hand:
-    print(card.value)
-
-h.order()
-
-
-for card in h:
-    print(card.value)
-
-# tricks = []
-# tricks.append(Trick([ CardPlayed(Card(Color.SPADE,Value.SEVEN),0),
-#           CardPlayed(Card(Color.SPADE,Value.HEIGHT),1),
-#           CardPlayed(Card(Color.SPADE,Value.NINE),2),
-#           CardPlayed(Card(Color.SPADE,Value.TEN),3)
-#         ]))
-#
-# tricks.append(Trick([ CardPlayed(Card(Color.DIAMOND,Value.SEVEN),0),
-#           CardPlayed(Card(Color.DIAMOND,Value.HEIGHT),1),
-#           CardPlayed(Card(Color.DIAMOND,Value.NINE),2),
-#           CardPlayed(Card(Color.DIAMOND,Value.TEN),3)
-#         ]))
-#
-# tricks.append(Trick([ CardPlayed(Card(Color.DIAMOND,Value.SEVEN),0),
-#           CardPlayed(Card(Color.SPADE,Value.HEIGHT),1),
-#           CardPlayed(Card(Color.SPADE,Value.NINE),2),
-#           CardPlayed(Card(Color.SPADE,Value.TEN),3)
-#         ]))
-#
-# tricks.append(Trick([ CardPlayed(Card(Color.DIAMOND,Value.SEVEN),0),
-#           CardPlayed(Card(Color.SPADE,Value.HEIGHT),1),
-#           CardPlayed(Card(Color.DIAMOND,Value.NINE),2),
-#           CardPlayed(Card(Color.SPADE,Value.TEN),3)
-#         ]))
-#
-# for trick in tricks:
-#
-#     print(trick.winner(atout_color=g.atout.color))
-#
-# tricks.append(Trick())
-#
-# print(len(tricks[-1]))
+print(g.play_a_card(g.hands[2][0],2))
