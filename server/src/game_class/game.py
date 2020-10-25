@@ -7,7 +7,10 @@ from game_class.hand import Hand
 class Atout:
 
     def __init__(self,color=0):
-        self.color = Color(color)
+        if color == None:
+            self.color = None
+        else:
+            self.color = Color(color)
 
 
 
@@ -19,7 +22,7 @@ class Game:
     nb_card_hand= 8
     nb_player = 4
 
-    def __init__(self,rules,atout = Atout(),order_hands=True):
+    def __init__(self,rules,atout = Atout(color=0),order_hands=True):
         """Init a Game
         Keyword arguments:
         rules -- a list of AbstractRule
@@ -31,7 +34,7 @@ class Game:
 
 
         self.deck = Deck(shuffle=True)
-        self.hands = [ Hand(self.deck[self.nb_card_hand*i:self.nb_card_hand*(i+1)],atout=self.atout.color) for i in range(self.nb_player)]
+        self.hands = [ Hand(self.deck[self.nb_card_hand*i:self.nb_card_hand*(i+1)]) for i in range(self.nb_player)]
         del self.deck
         self.do_order_hands()
 
@@ -43,7 +46,7 @@ class Game:
     def do_order_hands(self):
         if self.order_hands:
             for hand in self.hands:
-                hand.order()
+                hand.order(atout_color=self.atout.color)
 
     def validate_card(self,card,player):
         """Validate if a card could be play by the player
@@ -84,7 +87,7 @@ class Game:
         return trick_winner(trick,self.atout.color)
 
     def play_a_card(self,card,player):
-        """A player play a card.    
+        """A player play a card.
         Keyword arguments:
         card -- a Card instance
         player -- an int for the player index
