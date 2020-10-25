@@ -47,7 +47,6 @@ class Coinche:
         self.over = True
 
         atout_color = None
-        print(type(self.bets))
         for i  in range(len(self.bets)):
             bet = self.bets[-i]
             if not(bet.value in [0,float("inf")]):
@@ -91,14 +90,13 @@ class Coinche:
 
 
 
-    def play_a_bet(self,bet_value,color,player):
+    def play_a_bet(self,bet_value,color,player,add=True):
         """Validate if a bet could be play by the player
         Keyword arguments:
         bet_value -- an int
         color -- a Color enum
         player -- an int for the player index
         """
-
         if self.over:
             return False
 
@@ -119,11 +117,13 @@ class Coinche:
 
 
         if len(self.bets) == 0:
-            self._add_bet(bet)
+            if add:
+                self._add_bet(bet)
             return True
         else:
             if bet.value != 0 and bet <= self.bets[-1]:
                 return False
             else:
-                self._add_bet(bet)
+                if add:
+                    self._add_bet(bet)
                 return True

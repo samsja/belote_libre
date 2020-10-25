@@ -3,6 +3,9 @@ import flask_socketio as socket
 from flask_cors import CORS
 
 from game_class.game import Game
+from game_class.card import Color
+
+from game_class.coinche import Coinche
 from game_class.rules import basic_rules
 
 from jsonifier import list_card_jsonify,trick_jsonify
@@ -16,6 +19,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 socketio = socket.SocketIO(app, cors_allowed_origins="*",logger=True)
 
 g = Game(basic_rules)
+coinche = Coinche(basic_rules)
 
 @app.route('/')
 def root():
@@ -55,6 +59,20 @@ def is_play_allowed(player):
     )
     return response
 
+@app.route("/is_bet_allowed/<player>",methods = ['POST'])
+def is_bet_allowed(player):
+
+    data = flask.request.json
+
+    player = int(player)
+    is_allowed = {"result":coinche.play_a_bet(int(data["value"]),Color[data["color"]],player)}
+    json_result = json.dumps(is_allowed)
+
+    response = app.response_class(
+        response=json_result,
+        mimetype='application/json'
+    )
+    return response
 
 @socketio.on('play')
 def handle_play(card_index,player):
