@@ -119,14 +119,18 @@ def is_bet_allowed(player):
         "color": "DIAMOND"
     }
 
-
     Return Statement:
     json  ex : {"result",bool} if the bet is allowed
     """
     data = flask.request.json
 
     player = int(player)
-    is_allowed = {"result":coinche.play_a_bet(int(data["value"]),Color[data["color"]],player,add=False)}
+
+    value = data["value"]
+    if not(value in ["pass","coinche"]):
+        value = int(data["value"])
+
+    is_allowed = {"result":coinche.play_a_bet(value,Color[data["color"]],player,add=False)}
     json_result = json.dumps(is_allowed)
 
     response = app.response_class(

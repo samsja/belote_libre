@@ -40,13 +40,32 @@
             Http.send(data);
         }
       };
-      function bet(value,color,player) {
-        console.log("here")
+
+      function bet(player) {
+        let Http = new XMLHttpRequest();
+
+        value =$("#value-select").val()
+        color = $("#color-select").val()
+
+        if(Http) {
+          Http.onreadystatechange = function() {
+                if (Http.readyState == XMLHttpRequest.DONE) {
+                    var jsonResponse = Http.response;
+                    if(jsonResponse["result"]){
+                      socket.emit(data,player)
+                    }
+                    else{
+                      console.log("You can't make that bet")
+                    }
+                }
+            }
+            Http.responseType = 'json';
+            Http.open('POST',  host+"is_bet_allowed/"+player, true);
+            Http.setRequestHeader("Content-Type", "application/json");
+            var data = JSON.stringify({"value": value,"color":color});
+            Http.send(data);
+        }
       };
-
-
-
-
 
 
   </script>
@@ -77,14 +96,14 @@
 {% endfor %}
 
 
-<select name="bets" id="pet-select">
+<select name="bets" id="value-select">
   <option value="">--Please choose an bet--</option>
   {%for bet in bets_available%}
     <option value="{{bet}}">{{bet}}</option>
   {% endfor %}
 </select>
 
-<select name="color" id="pet-select">
+<select name="color" id="color-select">
   <option value="">--Please choose an color--</option>
   {%for color in colors%}
     <option value="{{color}}">{{color}}</option>
@@ -92,7 +111,7 @@
 </select>
 
 <!-- <button type="button" onclick="bet(0,"DIAMOND",0);">bet </button> -->
-
+<button type="button" onclick="bet(0);">bet </button>
 
 </body>
 </html>

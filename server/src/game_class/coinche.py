@@ -105,6 +105,9 @@ class Coinche:
 
         if bet_value == "coinche":
             bet_value = float("inf")
+        elif bet_value == "pass":
+            bet_value = 0 
+
 
         if not(bet_value in bet_allowed):
             return False
