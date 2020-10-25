@@ -10,9 +10,6 @@ app = Flask(__name__,
             template_folder='web/templates')
 
 
-
-
-
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -60,10 +57,8 @@ def play(player_index):
         card = card_played["card"]
         trick_cards[player]=get_path_card(card)
 
-    print(trick_cards)
 
     trick_str=[str((i-int(player_index))%4) for i in range(4)]
-    print(trick_str)
 
     return render_template("hand.html", Cards = Cards, len_card=len(Cards),trick = trick_cards, len_trick=len(trick_cards),trick_str=trick_str,player=player_index)
 
