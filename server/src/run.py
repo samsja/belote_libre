@@ -27,6 +27,25 @@ def root():
 
 @app.route("/hands/<player>")
 def get_hands(player):
+    """Return hand of the player <player>
+
+    Keyword arguments:
+    player -- an int for the player index
+
+    Return Statement:
+    json with the hand
+    ex : {
+      "0": {
+        "color": "SPADE",
+        "value": "AS"
+          },
+     ...
+      "7": {
+        "color": "DIAMOND",
+        "value": "KING"
+      }
+    }
+    """
     response = app.response_class(
         response=list_card_jsonify(g.hands[int(player)]),
         mimetype='application/json'
@@ -35,7 +54,28 @@ def get_hands(player):
 
 @app.route("/current_trick")
 def get_current_trick():
+    """Return the current trick
 
+    Return Statement:
+    json with the trick:
+    ex :
+    {
+      "0": {
+        "player": 0,
+        "card": {
+          "color": "HEART",
+          "value": "AS"
+        }
+      },
+      "1": {
+        "player": 1,
+        "card": {
+          "color": "HEART",
+          "value": "JACK"
+        }
+      }
+    }
+    """
     trick = g.tricks[-1]
     response = app.response_class(
         response=trick_jsonify(trick),
@@ -46,7 +86,17 @@ def get_current_trick():
 
 @app.route("/is_play_allowed/<player>",methods = ['POST'])
 def is_play_allowed(player):
+    """Return if a play is allowed
+    POST argument:
+    ex :
+    {
+        "value": "SEVEN",
+        "color": "DIAMOND"
+    }
 
+    Return Statement:
+    json  ex : {"result",bool} if the play is allowed
+    """
     data = flask.request.json
 
     player = int(player)
@@ -61,11 +111,22 @@ def is_play_allowed(player):
 
 @app.route("/is_bet_allowed/<player>",methods = ['POST'])
 def is_bet_allowed(player):
+    """Return if a bet is allowed
+    POST argument:
+    ex :
+    {
+        "value": 80,
+        "color": "DIAMOND"
+    }
 
+
+    Return Statement:
+    json  ex : {"result",bool} if the bet is allowed
+    """
     data = flask.request.json
 
     player = int(player)
-    is_allowed = {"result":coinche.play_a_bet(int(data["value"]),Color[data["color"]],player)}
+    is_allowed = {"result":coinche.play_a_bet(int(data["value"]),Color[data["color"]],player,add=False)}
     json_result = json.dumps(is_allowed)
 
     response = app.response_class(
@@ -76,6 +137,18 @@ def is_bet_allowed(player):
 
 @socketio.on('play')
 def handle_play(card_index,player):
+    """Play the desire card
+    Keyword arguments:
+    card_index : int
+    player : int
+
+    Return Statement:{
+                "player":player,
+                "card_played"  :card_index,
+                "played": play_allowed
+               }
+
+    """
     play_allowed = g.play_a_card(g.hands[int(player)][int(card_index)],int(player))
 
     response = {
@@ -86,6 +159,33 @@ def handle_play(card_index,player):
 
     socketio.emit("played",json.dumps(response))
 
+@socketio.on('bet')
+def handle_bet(bet,player):
+    """Play the desire card
+    Keyword arguments:
+    bet : json  : ex     {
+            "value": 80,
+            "color": "DIAMOND"
+        }
+    player : int
+
+    Return Statement {
+                "player":player,
+                "bet"  :bet,
+                "played": bet_allowed
+
+               }
+    """
+    bet = json.loads(bet)
+    bet_allowed = coinche.play_a_bet(int(data["value"]),Color[data["color"]],player)
+
+    response = {
+                "player":player,
+                "bet"  :bet,
+                "played": bet_allowed
+
+               }
+    socketio.emit("bet",json.dumps(response))
 
 if __name__ == '__main__':
     """ Run the app. """
