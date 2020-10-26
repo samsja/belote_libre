@@ -84,6 +84,22 @@ def get_current_trick():
     return response
 
 
+@app.route("/current_bet")
+def get_current_bet():
+    """Return the current trick
+
+    Return Statement:
+    json with the trick:
+
+    """
+    trick = coinche.tricks[-1]
+    response = app.response_class(
+        response=trick_jsonify(trick),
+        mimetype='application/json'
+    )
+    return response
+
+
 @app.route("/is_play_allowed/<player>",methods = ['POST'])
 def is_play_allowed(player):
     """Return if a play is allowed
