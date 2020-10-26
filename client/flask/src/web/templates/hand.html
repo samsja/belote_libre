@@ -17,8 +17,20 @@
           socket.on('played', function() {
               location.reload();
           });
+
+          socket.on('new_bet', function(data) {
+              console.log("here")
+              data = JSON.parse(data)
+              text = "player "+data.player +" has bet " + data.bet.value + " color: " + data.bet.color
+              if (data.played){
+                console.log(text)
+                
+              }
+          });
+
       });
-      function play_a_card(card_index,player) {
+
+  function play_a_card(card_index,player) {
         let Http = new XMLHttpRequest();
 
         if(Http) {
@@ -110,8 +122,7 @@
   {% endfor %}
 </select>
 
-<!-- <button type="button" onclick="bet(0,"DIAMOND",0);">bet </button> -->
 <button type="button" onclick="bet({{player}});">bet </button>
-
+<textarea id="bets" cols="50" rows="5"></textarea><br><br>
 </body>
 </html>

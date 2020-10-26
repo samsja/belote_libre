@@ -119,6 +119,8 @@ def is_play_allowed(player):
     is_allowed = {"result":coinche.game.validate_card(coinche.game.hands[player][data["card"]],player)}
     json_result = json.dumps(is_allowed)
 
+    print(data,is_allowed)
+
     response = app.response_class(
         response=json_result,
         mimetype='application/json'
@@ -172,6 +174,7 @@ def handle_play(card_index,player):
 
     """
     play_allowed = coinche.game.play_a_card(coinche.game.hands[int(player)][int(card_index)],int(player))
+    print(card_index,player,play_allowed)
 
     response = {
                 "player":player,
@@ -213,7 +216,7 @@ def handle_bet(bet,player):
                 "played": bet_allowed
 
                }
-    socketio.emit("bet",json.dumps(response))
+    socketio.emit("new_bet",json.dumps(response))
 
 if __name__ == '__main__':
     """ Run the app. """
