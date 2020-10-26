@@ -19,12 +19,12 @@
           });
 
           socket.on('new_bet', function(data) {
-              console.log("here")
-              data = JSON.parse(data)
-              text = "player "+data.player +" has bet " + data.bet.value + " color: " + data.bet.color
+              console.log("here");
+              data = JSON.parse(data);
+              text = "player "+data.player +" has bet " + data.bet.value + " color: " + data.bet.color ;
               if (data.played){
-                console.log(text)
-                
+                console.log(text);
+                document.getElementById("bets").value += text + "\n"
               }
           });
 
