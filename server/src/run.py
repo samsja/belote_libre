@@ -8,7 +8,7 @@ from game_class.card import Color
 from game_class.coinche import Coinche
 from game_class.rules import basic_rules
 
-from jsonifier import list_card_jsonify,trick_jsonify
+from jsonifier import list_card_jsonify,trick_jsonify,bets_jsonify
 import json
 
 
@@ -18,7 +18,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 socketio = socket.SocketIO(app, cors_allowed_origins="*",logger=True)
 
-g = Game(basic_rules)
+
 coinche = Coinche(basic_rules)
 
 @app.route('/')
@@ -47,7 +47,7 @@ def get_hands(player):
     }
     """
     response = app.response_class(
-        response=list_card_jsonify(g.hands[int(player)]),
+        response=list_card_jsonify(coinche.game.hands[int(player)]),
         mimetype='application/json'
     )
     return response
@@ -76,7 +76,7 @@ def get_current_trick():
       }
     }
     """
-    trick = g.tricks[-1]
+    trick = coinche.game.tricks[-1]
     response = app.response_class(
         response=trick_jsonify(trick),
         mimetype='application/json'
@@ -84,17 +84,17 @@ def get_current_trick():
     return response
 
 
-@app.route("/current_bet")
-def get_current_bet():
+@app.route("/current_bets")
+def get_current_bets():
     """Return the current trick
 
     Return Statement:
     json with the trick:
 
     """
-    trick = coinche.tricks[-1]
+    bets = coinche.bets
     response = app.response_class(
-        response=trick_jsonify(trick),
+        response=bets_jsonify(bets),
         mimetype='application/json'
     )
     return response
@@ -116,7 +116,7 @@ def is_play_allowed(player):
     data = flask.request.json
 
     player = int(player)
-    is_allowed = {"result":g.validate_card(g.hands[player][data["card"]],player)}
+    is_allowed = {"result":coinche.game.validate_card(coinche.game.hands[player][data["card"]],player)}
     json_result = json.dumps(is_allowed)
 
     response = app.response_class(
@@ -149,6 +149,8 @@ def is_bet_allowed(player):
     is_allowed = {"result":coinche.play_a_bet(value,Color[data["color"]],player,add=False)}
     json_result = json.dumps(is_allowed)
 
+    print(data,is_allowed)
+
     response = app.response_class(
         response=json_result,
         mimetype='application/json'
@@ -169,7 +171,7 @@ def handle_play(card_index,player):
                }
 
     """
-    play_allowed = g.play_a_card(g.hands[int(player)][int(card_index)],int(player))
+    play_allowed = coinche.game.play_a_card(coinche.game.hands[int(player)][int(card_index)],int(player))
 
     response = {
                 "player":player,
@@ -197,7 +199,13 @@ def handle_bet(bet,player):
                }
     """
     bet = json.loads(bet)
-    bet_allowed = coinche.play_a_bet(int(data["value"]),Color[data["color"]],player)
+    value = bet["value"]
+    if not(value in ["pass","coinche"]):
+        value = int(bet["value"])
+    bet_allowed = coinche.play_a_bet(value,Color[bet["color"]],player)
+    player = int(player)
+
+    print(bet,bet_allowed)
 
     response = {
                 "player":player,

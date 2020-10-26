@@ -46,3 +46,17 @@ def trick_jsonify(trick):
 
 
     return json.dumps(D)
+
+def bets_jsonify(bets):
+
+    D = {}
+    bet_dict = {}
+    for i,bet in enumerate(bets):
+        bet_dict["value"]=bet.value
+        bet_dict["color"]=bet.color
+        bet_dict["player"]=bet.player
+
+
+        D[i]=copy.deepcopy(bet_dict)
+
+    return json.dumps(D)

@@ -14,7 +14,7 @@ c = Coinche(basic_rules)
 print(c.play_a_bet("coinche",Color.DIAMOND,0))
 
 print(c.play_a_bet(0,Color.DIAMOND,0))
-print(c.play_a_bet(0,Color.DIAMOND,1))
+print(c.play_a_bet(0,Color.SPADE,1))
 print(c.play_a_bet(0,Color.DIAMOND,2))
 print(c.play_a_bet(0,Color.DIAMOND,3))
 

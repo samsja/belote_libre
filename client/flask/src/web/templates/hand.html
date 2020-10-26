@@ -52,7 +52,7 @@
                 if (Http.readyState == XMLHttpRequest.DONE) {
                     var jsonResponse = Http.response;
                     if(jsonResponse["result"]){
-                      socket.emit(data,player)
+                      socket.emit('bet',data,player)
                     }
                     else{
                       console.log("You can't make that bet")
@@ -111,7 +111,7 @@
 </select>
 
 <!-- <button type="button" onclick="bet(0,"DIAMOND",0);">bet </button> -->
-<button type="button" onclick="bet(0);">bet </button>
+<button type="button" onclick="bet({{player}});">bet </button>
 
 </body>
 </html>
