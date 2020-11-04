@@ -19,13 +19,17 @@
           });
 
           socket.on('new_bet', function(data) {
-              console.log("here");
               data = JSON.parse(data);
-              text = "player "+data.player +" has bet " + data.bet.value + " color: " + data.bet.color ;
+              text = get_name_player(data.player) +" bet " + data.bet.value + " " + data.bet.color ;
               if (data.played){
-                console.log(text);
-                document.getElementById("bets").value += text + "\n"
+                document.getElementById("bets").value += text + "\n";
+
+                if(data.has_game_start){
+                  document.getElementById("bets").value += "The game is starting, the atout color is " + data.bet.color+ "\n";
+                }
+
               }
+
           });
 
       });
@@ -79,6 +83,29 @@
         }
       };
 
+      function get_name_player(player,actual_player) {
+        let Http = new XMLHttpRequest();
+
+        if(Http) {
+          Http.onreadystatechange = function() {
+              if (Http.readyState == XMLHttpRequest.DONE) {
+                var players_name = ['you', 'west','north','est'];
+                console.log("here")
+                return players_name[player]
+              }
+              else{
+                return player
+              }
+            }
+            Http.responseType = 'json';
+            Http.open('GET',  host+"players_name/"+actual_player, true);
+        }
+        else{
+          return player
+        }
+      };
+
+
 
   </script>
 
@@ -98,31 +125,35 @@
 
 {%for i in range(len_trick)%}
   {% if not( trick[i] == "") %}
-  <div class="{{"trick" + trick_str[i]}}">
+<div class="{{"trick" + trick_str[i]}}">
 
-    <div class="card">
-          <img src="{{ url_for('static', filename='card_game/'+trick[i]+'.png') }}" align="left" alt="{{trick[i]}}" style="width:100%;height:100%">
-    </div>
+  <div class="card">
+        <img src="{{ url_for('static', filename='card_game/'+trick[i]+'.png') }}" align="left" alt="{{trick[i]}}" style="width:100%;height:100%">
   </div>
+</div>
   {% endif %}
 {% endfor %}
 
+<div class="trick">
+  <select name="bets" id="value-select">
+    <option value="">--Please choose an bet--</option>
+    {%for bet in bets_available%}
+      <option value="{{bet}}">{{bet}}</option>
+    {% endfor %}
+  </select>
 
-<select name="bets" id="value-select">
-  <option value="">--Please choose an bet--</option>
-  {%for bet in bets_available%}
-    <option value="{{bet}}">{{bet}}</option>
-  {% endfor %}
-</select>
+  <select name="color" id="color-select">
+    <option value="">--Please choose an color--</option>
+    {%for color in colors%}
+      <option value="{{color}}">{{color}}</option>
+    {% endfor %}
+  </select>
 
-<select name="color" id="color-select">
-  <option value="">--Please choose an color--</option>
-  {%for color in colors%}
-    <option value="{{color}}">{{color}}</option>
-  {% endfor %}
-</select>
+  <button type="button" onclick="bet({{player}});">bet </button>
+  <textarea id="bets" cols="50" rows="5"></textarea><br><br>
+</div>
 
-<button type="button" onclick="bet({{player}});">bet </button>
-<textarea id="bets" cols="50" rows="5"></textarea><br><br>
+
+
 </body>
 </html>

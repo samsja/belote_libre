@@ -39,12 +39,11 @@ class Coinche:
         self.rules = rules
         self.next_player = 0
         self.bets = []
-        self.over = False
+        self.betting_phase_over = False
         self.game = Game(self.rules)
 
-
     def _create_game(self):
-        self.over = True
+        self.betting_phase_over = True
 
         atout_color = None
         for i  in range(len(self.bets)):
@@ -97,7 +96,7 @@ class Coinche:
         color -- a Color enum
         player -- an int for the player index
         """
-        if self.over:
+        if self.betting_phase_over:
             return False
 
         if player != self.next_player:
@@ -106,7 +105,7 @@ class Coinche:
         if bet_value == "coinche":
             bet_value = float("inf")
         elif bet_value == "pass":
-            bet_value = 0 
+            bet_value = 0
 
 
         if not(bet_value in bet_allowed):

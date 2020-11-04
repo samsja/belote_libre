@@ -100,6 +100,40 @@ def get_current_bets():
     return response
 
 
+@app.route("/game_info")
+def game_info():
+    """Return some info on the current game
+    Return Statement:
+    json with some game info:
+    """
+    info = { "next_player": coinche.game.next_player,
+             "atout": Color(coinche.game.atout.color).name
+           }
+
+    response = app.response_class(
+        response=json.dumps(info),
+        mimetype='application/json'
+    )
+    return response
+
+@app.route("/players_name/<player>")
+def players_name(player):
+    """Return info on the current game
+    Return Statement:
+    json with players name:
+    """
+
+    names = ["south","west","north","est"]
+    print("HERE:"+player)
+    names_info = [ names[(i+int(player))%4] for i in range(len(names))]
+
+    response = app.response_class(
+        response=json.dumps(names_info),
+        mimetype='application/json'
+    )
+    return response
+
+
 @app.route("/is_play_allowed/<player>",methods = ['POST'])
 def is_play_allowed(player):
     """Return if a play is allowed
@@ -208,15 +242,19 @@ def handle_bet(bet,player):
     bet_allowed = coinche.play_a_bet(value,Color[bet["color"]],player)
     player = int(player)
 
+    has_game_start = coinche.betting_phase_over
     print(bet,bet_allowed)
 
     response = {
                 "player":player,
                 "bet"  :bet,
-                "played": bet_allowed
-
+                "played": bet_allowed,
+                "has_game_start":has_game_start
                }
+
     socketio.emit("new_bet",json.dumps(response))
+
+
 
 if __name__ == '__main__':
     """ Run the app. """
