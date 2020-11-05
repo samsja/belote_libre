@@ -150,13 +150,14 @@ def is_play_allowed(player):
     data = flask.request.json
 
     player = int(player)
-    is_allowed = {"result":coinche.game.validate_card(coinche.game.hands[player][data["card"]],player)}
-    json_result = json.dumps(is_allowed)
 
-    print(data,is_allowed)
+    is_allowed = coinche.betting_phase_over and coinche.game.validate_card(coinche.game.hands[player][data["card"]],player)
+    is_allowed_dict = {"result":is_allowed}
+
+    print(data,is_allowed_dict)
 
     response = app.response_class(
-        response=json_result,
+        response=json.dumps(is_allowed_dict),
         mimetype='application/json'
     )
     return response

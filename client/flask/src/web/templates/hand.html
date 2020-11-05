@@ -84,25 +84,15 @@
       };
 
       function get_name_player(player,actual_player) {
-        let Http = new XMLHttpRequest();
 
-        if(Http) {
-          Http.onreadystatechange = function() {
-              if (Http.readyState == XMLHttpRequest.DONE) {
-                var players_name = ['you', 'west','north','est'];
-                console.log("here")
-                return players_name[player]
-              }
-              else{
-                return player
-              }
-            }
-            Http.responseType = 'json';
-            Http.open('GET',  host+"players_name/"+actual_player, true);
+        let Http = new XMLHttpRequest();
+        Http.open('GET',  host+"players_name/"+player, true);
+        Http.send();
+        Http.onreadystatechange = (e) => {
+          console.log(Http.responseText)
         }
-        else{
-          return player
-        }
+        var players_name = ['you', 'west','north','est'];
+        return players_name[player]
       };
 
 
