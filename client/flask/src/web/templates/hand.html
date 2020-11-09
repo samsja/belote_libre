@@ -8,11 +8,11 @@
   <script type="text/javascript" charset="utf-8">
       var socket;
 
-      const host='http://localhost:8888/';
+      const host='http://{{api_host}}/';
 
 
       $(document).ready(function(){
-         socket = io.connect("http://localhost:8888/");
+         socket = io.connect("http://{{api_host}}/");
 
           socket.on('played', function() {
               location.reload();

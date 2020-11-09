@@ -2,7 +2,9 @@ from flask import Flask, render_template
 from handler import get_path_card
 import requests as r
 
-host = "localhost:8888"
+import os
+
+host = os.getenv("API_HOST","localhost:8888")
 
 app = Flask(__name__,
             static_url_path='',
@@ -68,7 +70,8 @@ def play(player_index):
                             trick_str=trick_str,
                             player=player_index,
                             bets_available = ["pass","coinche"] + [str(80 + 10*i) for i in range(9)] + ["250","270","500"],
-                            colors = ["SPADE","CLUB","HEART","DIAMOND"]
+                            colors = ["SPADE","CLUB","HEART","DIAMOND"],
+                            api_host = host
                            )
 
 
