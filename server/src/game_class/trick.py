@@ -1,4 +1,4 @@
-from game_class.card import Color,Value,Card,CardPlayed
+from game_class.card import Color,Value,Card,CardPlayed, CARD_VALUE_POINT,CARD_VALUE_ATOUT_POINT
 from game_class.comparable import ComparabaleValue
 
 
@@ -57,3 +57,14 @@ class Trick:
 
         else:
             raise ValueError("we are missing some color here")
+
+
+    def total_value(self,atout_color):
+        value = 0
+        for card_played in self.set:
+            if card_played.card.color == atout_color:
+                value += CARD_VALUE_ATOUT_POINT[card_played.card.value]
+            else:
+                value += CARD_VALUE_POINT[card_played.card.value]
+
+        return value

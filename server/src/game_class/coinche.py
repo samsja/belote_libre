@@ -55,7 +55,6 @@ class Coinche:
         self.game.atout = Atout(color=atout_color)
 
 
-
     def _is_coinchable(self):
         is_coinchable = False
 

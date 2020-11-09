@@ -1,0 +1,62 @@
+
+body {
+  background-image:url(/background.jpg);
+  background-repeat: no-repeat;
+  background-size: cover; /* Resize the background image to cover the entire container */
+  /* background-position: center;  */
+   width: 1920px;
+   height: 1080px;
+}
+
+div.card {
+  transition: 0.3s;
+  border-radius: 5px;
+  width:180px;
+  height:290px;
+  float: left;
+}
+
+div.hand {
+  position: absolute;
+  top : 630px;
+  left: 180px;
+}
+
+div.trick {
+  position: absolute;
+  top : 200px;
+  left: 1600px;
+}
+
+div.trick1 {
+  position: absolute;
+  top : 150px;
+  left: 500px;
+}
+
+div.trick3 {
+  position: absolute;
+  top : 150px;
+  left: 900px;
+}
+div.trick2 {
+  position: absolute;
+  top : 20px;
+  left: 700px;
+}
+
+div.trick0 {
+  position: absolute;
+  top : 320px;
+  left: 700px;
+}
+
+
+img {
+  border-radius: 5px 5px 0 0;
+}
+
+div.play {
+  top : 0px;
+  left: 1500px;
+}

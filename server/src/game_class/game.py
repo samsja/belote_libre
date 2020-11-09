@@ -99,8 +99,7 @@ class Game:
         if not(isinstance(card,Card)):
             raise TypeError(f"card should be a Card not {type(card)}")
 
-        if len(self.tricks)>=self.nb_trick and len(self.tricks[-1])==self.nb_player:
-            self.over = True
+
 
         if self.validate_card(card,player) :
             if len(self.tricks[-1]) == self.nb_player:
@@ -119,9 +118,36 @@ class Game:
             else:
                 self.next_player = (self.next_player +1)%self.nb_player
 
+            if len(self.tricks)>=self.nb_trick and len(self.tricks[-1])==self.nb_player:
+                self.over = True
+                
             return True
         else:
             return False
+
+    def compute_points(self):
+
+        team_1_points = 0
+        team_2_points = 0
+
+
+        for i,trick in enumerate(self.tricks):
+
+            if trick.set != []:
+                winner = trick.winner(self.atout.color)
+
+                trick_points = trick.total_value(self.atout.color)
+                if i >=self.nb_trick: # dix de der
+                    trick_points += 10
+
+                if winner in [0,2]:
+                    team_1_points += trick_points
+                elif winner in [1,3]:
+                    team_2_points += trick_points
+                else:
+                    raise ValueError("winner should be in [0,1,2,3]")
+
+        return team_1_points,team_2_points
 
     @staticmethod
     def get_co_player(player):

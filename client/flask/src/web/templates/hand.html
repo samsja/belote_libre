@@ -25,11 +25,17 @@
                 document.getElementById("bets").value += text + "\n";
 
                 if(data.has_game_start){
-                  document.getElementById("bets").value += "The game is starting, the atout color is " + data.bet.color+ "\n";
+                  document.getElementById("bets").value += "The game is starting, the atout color is " + data.game_atout+ "\n";
                 }
 
               }
 
+          });
+
+          socket.on('game_over', function(data) {
+              data = JSON.parse(data);
+              text = "Game over , Team 1 score : " + data.team_1_points + "  Team 2 score : " + data.team_2_points ;
+              document.getElementById("bets").value += text + "\n";
           });
 
       });
