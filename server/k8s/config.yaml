@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: belote-api-config
+  namespace: belote
+data:
+  DEBUG: "true"

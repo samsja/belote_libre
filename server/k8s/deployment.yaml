@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: belote-api-deployment
+  namespace: belote
+  labels:
+    app: belote-api-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: belote-api-app
+  template:
+    metadata:
+      labels:
+        app: belote-api-app
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: belote-api-deployment
+          image: samsja/belote-api:dev-latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: belote-api-config
+          ports:
+          - containerPort: 8888
+
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8888
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8888
+            periodSeconds: 2
+
+
+          # resources:
+          #   limits:
+          #     cpu: "0.2"
+          #     memory: 100Mi
+          #   requests:
+          #     cpu: "0.1"
+          #     memory: 50Mi
