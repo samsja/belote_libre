@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: belote-front-config
+  namespace: belote
+data:
+  DEBUG: "true"
+  API_HOST: belote-api.samsja.fr

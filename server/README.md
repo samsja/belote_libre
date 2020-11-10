@@ -17,3 +17,8 @@ then:
 '''
 docker build -t samsja/belote-api:dev-latest .
 '''
+
+## NEW:
+```
+docker buildx build --platform linux/arm/v7,linux/arm64/v8,linux/amd64  -t samsja/belote-api:latest .
+```
