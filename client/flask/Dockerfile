@@ -14,7 +14,7 @@ COPY requirements.txt requirements.txt
 
 RUN pip install -r requirements.txt
 
-COPY src .
+COPY src src
 
 
 USER samsja
@@ -23,4 +23,4 @@ USER samsja
 EXPOSE 8000
 
 
-CMD  gunicorn -t 300 -b :8000 -w 1 run:app
+CMD  python src/run.py

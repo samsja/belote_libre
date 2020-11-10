@@ -275,4 +275,4 @@ def handle_bet(bet,player):
 
 if __name__ == '__main__':
     """ Run the app. """
-    socketio.run(app, port=8888, debug=True)
+    socketio.run(app, host='0.0.0.0' ,port=8888, debug=True)
