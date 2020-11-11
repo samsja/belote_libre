@@ -22,8 +22,10 @@ socketio = socket.SocketIO(app, cors_allowed_origins="*",logger=True)
 coinche = Coinche(basic_rules)
 
 @app.route('/')
-def root():
-    return "BWC (Belote World Championship) belt! API"
+def alive():
+    """Health check.
+    """
+    return flask.jsonify({"alive": True})
 
 @app.route("/hands/<player>")
 def get_hands(player):

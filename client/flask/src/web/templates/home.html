@@ -1,7 +1,37 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+</head>
+
 <body>
-<h1> lets win the BWC  belt! </h1>
-<p>the BWC stand for Belote World Championship.</p>
+
+<div class="title">
+  <h1 style="font-size:60px; color:white; text-align:center;">   Bienvenue sur la Belote libre </h1>
+  <p style="font-size:40px; color:white; text-align:center;" > choisissez votre place.</p>
+
+</div>
+
+<div class="est">
+  <p style="font-size:40px; color:white;" > <a href="http://{{my_host}}/play/3">est</a></p>
+</div>
+
+<div class="west">
+  <p style="font-size:40px; color:white;" > <a href="http://{{my_host}}/play/1">west</a></p>
+</div>
+
+<div class="north">
+  <p style="font-size:40px; color:white;" > <a href="http://{{my_host}}/play/2">north</a></p>
+</div>
+
+<div class="south">
+  <p style="font-size:40px; color:white;" > <a href="http://{{my_host}}/play/0">south</a></p>
+</div>
+
+<div class="credit">
+  <p style="font-size:20px; color:white;" > credit : samsja,  check my  <a href="https://github.com/samsja/card_game_deep_rl">github</a></p>
+</div>
+
 </body>
 </html>

@@ -4,7 +4,10 @@ import requests as r
 
 import os
 
-host = os.getenv("API_HOST","localhost:8888")
+api_host = os.getenv("API_HOST","localhost:8888")
+my_host = os.getenv("MY_HOST","localhost:8000")
+
+
 
 app = Flask(__name__,
             static_url_path='',
@@ -14,7 +17,7 @@ app = Flask(__name__,
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html',my_host = my_host)
 
 
 
@@ -23,7 +26,7 @@ def play(player_index):
 
 
     try :
-        hand = r.get(f"http://{host}/hands/{player_index}")
+        hand = r.get(f"http://{api_host}/hands/{player_index}")
     except r.exceptions.HTTPError as errh:
         return f"Http Error:{errh}",500
     except r.exceptions.ConnectionError as errc:
@@ -40,7 +43,7 @@ def play(player_index):
 
 
     try :
-        trick = r.get(f"http://{host}/current_trick")
+        trick = r.get(f"http://{api_host}/current_trick")
     except r.exceptions.HTTPError as errh:
         return f"Http Error:{errh}",500
     except r.exceptions.ConnectionError as errc:
@@ -71,7 +74,8 @@ def play(player_index):
                             player=player_index,
                             bets_available = ["pass","coinche"] + [str(80 + 10*i) for i in range(9)] + ["250","270","500"],
                             colors = ["SPADE","CLUB","HEART","DIAMOND"],
-                            api_host = host
+                            api_host = api_host,
+                            my_host = my_host
                            )
 
 

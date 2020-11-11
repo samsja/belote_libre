@@ -1,0 +1,46 @@
+body {
+  background-image:url(/background.jpg);
+  background-repeat: no-repeat;
+  background-size: cover; /* Resize the background image to cover the entire container */
+  /* background-position: center;  */
+   width: 1920px;
+   height: 1080px;
+}
+
+
+div.title {
+  margin: auto;
+
+  width: 60%;
+
+  padding: 10px;
+}
+
+div.credit {
+  position: absolute;
+  bottom: 10px;
+  left: 100px
+}
+
+div.west {
+  position: absolute;
+  top : 450px;
+  left: 570px;
+}
+
+div.est {
+  position: absolute;
+  top : 450px;
+  left: 1220px;
+}
+div.north {
+  position: absolute;
+  top : 320px;
+  left: 850px;
+}
+
+div.south {
+  position: absolute;
+  top : 570px;
+  left: 850px;
+}
