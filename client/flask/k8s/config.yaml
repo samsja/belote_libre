@@ -6,3 +6,4 @@ metadata:
 data:
   DEBUG: "true"
   API_HOST: belote-api.samsja.fr
+  MY_HOST: belote-libre.samsja.fr
