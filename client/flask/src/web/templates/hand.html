@@ -30,6 +30,8 @@
 
               }
 
+              location.reload();
+
           });
 
           socket.on('game_over', function(data) {
@@ -102,18 +104,30 @@
         return players_name[player]
       };
 
-      function update_game_ingo(player) {
+      function update_game_ingo() {
 
-        // let Http = new XMLHttpRequest();
-        // Http.open('GET',  host+"players_name/"+player, true);
-        // Http.send();
-        // Http.onreadystatechange = (e) => {
-        //   console.log(Http.responseText)
-        // }
         var players_name = ['south', 'west','north','est'];
-        players_name[player] = ["you"]
-        return players_name[player]
+        players_name[{{player}}] = ["you"]
+
+        let Http = new XMLHttpRequest();
+        Http.open('GET',  host+"game_info", true);
+        Http.responseType = 'json';
+        Http.send();
+
+        Http.onreadystatechange = (e) => {
+          var jsonResponse = Http.response;
+
+          if (jsonResponse) {
+            document.getElementById("h1_next_player_info").innerHTML = "next player is " + players_name[jsonResponse["next_player"]] ;
+          }
+          console.log(jsonResponse)
+        }
+
+
       };
+
+      window.onload = update_game_ingo;
+
 
 
 
@@ -165,8 +179,7 @@
 
 
 <div class="next_player_info">
-  <h1 style="font-size:30px; color:white; text-align:center;">   next player is you</h1>
-
+  <h1 id="h1_next_player_info" style="font-size:30px; color:white; text-align:center;">   next player is you</h1>
 </div>
 
 
