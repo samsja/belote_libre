@@ -10,7 +10,8 @@ from game_class.rules import basic_rules
 
 from jsonifier import list_card_jsonify,trick_jsonify,bets_jsonify
 import json
-
+from utils import short_uuid
+import config
 
 # Init the server
 app = flask.Flask(__name__)
@@ -19,13 +20,49 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 socketio = socket.SocketIO(app, cors_allowed_origins="*",logger=True)
 
 
-coinche = Coinche(basic_rules)
+
+games = {"init":Coinche(basic_rules) }
 
 @app.route('/')
 def alive():
     """Health check.
     """
     return flask.jsonify({"alive": True})
+
+
+@app.route('/create_room')
+def create_room():
+    """Create an instance of the game
+    Return Statement:
+    json with the hand
+    ex : { "uuid":c6892d47}
+    """
+    if len(games)<config.MAX_GAMES:
+        coinche = Coinche(basic_rules)
+
+        uuid = short_uuid()
+
+        games[uuid]=coinche
+
+
+        return flask.jsonify({"uuid": uuid})
+    else:
+        return 'Oops ,too many games already created', 409
+
+
+
+
+@app.route('/reinit_game')
+def reinit_game():
+    """Reinit the game
+    """
+
+    games["init"].reinit()
+    return flask.jsonify({"done": True})
+
+
+
+
 
 @app.route("/hands/<player>")
 def get_hands(player):
@@ -49,7 +86,7 @@ def get_hands(player):
     }
     """
     response = app.response_class(
-        response=list_card_jsonify(coinche.game.hands[int(player)]),
+        response=list_card_jsonify(games["init"].game.hands[int(player)]),
         mimetype='application/json'
     )
     return response
@@ -78,7 +115,7 @@ def get_current_trick():
       }
     }
     """
-    trick = coinche.game.tricks[-1]
+    trick = games["init"].game.tricks[-1]
     response = app.response_class(
         response=trick_jsonify(trick),
         mimetype='application/json'
@@ -94,7 +131,7 @@ def get_current_bets():
     json with the trick:
 
     """
-    bets = coinche.bets
+    bets = games["init"].bets
     response = app.response_class(
         response=bets_jsonify(bets),
         mimetype='application/json'
@@ -109,9 +146,9 @@ def game_info():
     json with some game info:
     """
 
-    team_1_points,team_2_points = coinche.game.compute_points()
-    info = { "next_player": coinche.game.next_player,
-             "atout": Color(coinche.game.atout.color).name,
+    team_1_points,team_2_points = games["init"].game.compute_points()
+    info = { "next_player": games["init"].game.next_player,
+             "atout": Color(games["init"].game.atout.color).name,
              "team_1_points": team_1_points,
              "team_2_points": team_2_points
            }
@@ -156,7 +193,7 @@ def is_play_allowed(player):
 
     player = int(player)
 
-    is_allowed = coinche.betting_phase_over and coinche.game.validate_card(coinche.game.hands[player][data["card"]],player)
+    is_allowed = games["init"].betting_phase_over and games["init"].game.validate_card(games["init"].game.hands[player][data["card"]],player)
     is_allowed_dict = {"result":is_allowed}
 
     print(data,is_allowed_dict)
@@ -189,7 +226,7 @@ def is_bet_allowed(player):
         value = int(data["value"])
 
 
-    is_allowed = coinche.play_a_bet(value,Color[data["color"]],player,add=False)
+    is_allowed = games["init"].play_a_bet(value,Color[data["color"]],player,add=False)
     is_allowed_dict = {"result":is_allowed}
 
     print(data,is_allowed_dict)
@@ -214,7 +251,7 @@ def handle_play(card_index,player):
                }
 
     """
-    play_allowed = coinche.game.play_a_card(coinche.game.hands[int(player)][int(card_index)],int(player))
+    play_allowed = games["init"].game.play_a_card(games["init"].game.hands[int(player)][int(card_index)],int(player))
     print(card_index,player,play_allowed)
 
 
@@ -226,8 +263,8 @@ def handle_play(card_index,player):
 
     socketio.emit("played",json.dumps(response))
 
-    if coinche.game.over:
-        team_1_points,team_2_points = coinche.game.compute_points()
+    if games["init"].game.over:
+        team_1_points,team_2_points = games["init"].game.compute_points()
         response = {
                     "team_1_points" :  team_1_points,
                     "team_2_points" :   team_2_points
@@ -258,7 +295,7 @@ def handle_bet(bet,player):
     value = bet["value"]
     if not(value in ["pass","coinche"]):
         value = int(bet["value"])
-    bet_allowed = coinche.play_a_bet(value,Color[bet["color"]],player)
+    bet_allowed = games["init"].play_a_bet(value,Color[bet["color"]],player)
     player = int(player)
 
     print(bet,bet_allowed)
@@ -267,8 +304,8 @@ def handle_bet(bet,player):
                 "player":player,
                 "bet"  :bet,
                 "played": bet_allowed,
-                "has_game_start":coinche.betting_phase_over,
-                "game_atout":coinche.game.atout.color.name
+                "has_game_start":games["init"].betting_phase_over,
+                "game_atout":games["init"].game.atout.color.name
                }
 
     socketio.emit("new_bet",json.dumps(response))

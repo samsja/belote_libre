@@ -22,7 +22,7 @@ class Game:
     nb_card_hand= 8
     nb_player = 4
 
-    def __init__(self,rules,atout = Atout(color=0),order_hands=True):
+    def __init__(self,rules,atout = Atout(color=0),order_hands=True,first_player=0):
         """Init a Game
         Keyword arguments:
         rules -- a list of AbstractRule
@@ -40,7 +40,8 @@ class Game:
 
         self.tricks = [Trick([])]
 
-        self.next_player = 0
+        self.first_player = first_player
+        self.next_player = self.first_player
         self.over = False
 
     def do_order_hands(self):
@@ -116,11 +117,11 @@ class Game:
             if len(self.tricks[-1]) == self.nb_player:
                 self.next_player = self.tricks[-1].winner(atout_color=self.atout.color)
             else:
-                self.next_player = (self.next_player +1)%self.nb_player
+                self.next_player = self._rotate_player(self.next_player)
 
             if len(self.tricks)>=self.nb_trick and len(self.tricks[-1])==self.nb_player:
                 self.over = True
-                
+
             return True
         else:
             return False
@@ -149,9 +150,18 @@ class Game:
 
         return team_1_points,team_2_points
 
+    def reinit_game(self):
+        self.__init__(self.rules,atout = self.atout,order_hands=self.order_hands,first_player=self._rotate_player(self.first_player))
+
+
     @staticmethod
     def get_co_player(player):
         if (not(isinstance(player,int)) or not(0<=player<Game.nb_player)):
             raise TypeError(f"player should be an integer between 0 and {Game.nb_player} not {type(player)}")
 
         return (player+2)%Game.nb_player
+
+    @staticmethod
+    def _rotate_player(player):
+
+        return (player +1)%Game.nb_player

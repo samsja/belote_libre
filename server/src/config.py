@@ -1,0 +1,2 @@
+
+MAX_GAMES = 2

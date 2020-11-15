@@ -37,10 +37,17 @@ class Coinche:
     def __init__(self,rules):
 
         self.rules = rules
-        self.next_player = 0
         self.bets = []
         self.betting_phase_over = False
         self.game = Game(self.rules)
+        self.next_player = self.game.first_player
+
+    def reinit(self):
+        self.game.reinit_game()
+        self.next_player = self.game.first_player
+        self.bets = []
+        self.betting_phase_over = False
+
 
     def _create_game(self):
         self.betting_phase_over = True
