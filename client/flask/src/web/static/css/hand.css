@@ -16,6 +16,12 @@ div.card {
   float: left;
 }
 
+div.next_player_info {
+  position: absolute;
+  top : 0px;
+  left: 800px;
+}
+
 div.hand {
   position: absolute;
   top : 630px;

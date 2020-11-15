@@ -89,15 +89,29 @@
         }
       };
 
-      function get_name_player(player,actual_player) {
+      function get_name_player(player) {
 
-        let Http = new XMLHttpRequest();
-        Http.open('GET',  host+"players_name/"+player, true);
-        Http.send();
-        Http.onreadystatechange = (e) => {
-          console.log(Http.responseText)
-        }
-        var players_name = ['you', 'west','north','est'];
+        // let Http = new XMLHttpRequest();
+        // Http.open('GET',  host+"players_name/"+player, true);
+        // Http.send();
+        // Http.onreadystatechange = (e) => {
+        //   console.log(Http.responseText)
+        // }
+        var players_name = ['south', 'west','north','est'];
+        players_name[player] = ["you"]
+        return players_name[player]
+      };
+
+      function update_game_ingo(player) {
+
+        // let Http = new XMLHttpRequest();
+        // Http.open('GET',  host+"players_name/"+player, true);
+        // Http.send();
+        // Http.onreadystatechange = (e) => {
+        //   console.log(Http.responseText)
+        // }
+        var players_name = ['south', 'west','north','est'];
+        players_name[player] = ["you"]
         return players_name[player]
       };
 
@@ -148,6 +162,15 @@
   <button type="button" onclick="bet({{player}});">bet </button>
   <textarea id="bets" cols="50" rows="5"></textarea><br><br>
 </div>
+
+
+<div class="next_player_info">
+  <h1 style="font-size:30px; color:white; text-align:center;">   next player is you</h1>
+
+</div>
+
+
+
 
 
 
