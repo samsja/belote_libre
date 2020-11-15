@@ -17,7 +17,7 @@ app = Flask(__name__,
 
 @app.route('/')
 def home():
-    return render_template('home.html',my_host = my_host)
+    return render_template('home.html',my_host = my_host, api_host=api_host)
 
 
 

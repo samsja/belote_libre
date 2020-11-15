@@ -3,6 +3,31 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+  <script type="text/javascript" charset="utf-8">
+
+  var socket;
+
+  const host='http://{{api_host}}/';
+
+  function reset() {
+    let Http = new XMLHttpRequest();
+
+    if(Http) {
+      Http.onreadystatechange = function() {
+            if (Http.readyState == XMLHttpRequest.DONE) {
+                var jsonResponse = Http.response;
+                console.log("game reset")
+            }
+        }
+        Http.responseType = 'json';
+        Http.open('GET',  host+"reinit_game", true);
+        Http.send();
+    }
+  };
+  </script>
+
 </head>
 
 <body>
@@ -11,6 +36,11 @@
   <h1 style="font-size:60px; color:white; text-align:center;">   Bienvenue sur la Belote libre </h1>
   <p style="font-size:40px; color:white; text-align:center;" > choisissez votre place.</p>
 
+</div>
+
+
+<div class="reset">
+  <button class="button button1" onclick="reset();" >Reset Game</button>
 </div>
 
 <div class="est">
