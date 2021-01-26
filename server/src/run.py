@@ -62,10 +62,14 @@ def reinit_game():
     """Reinit the game
     """
 
-    coinches["init"].reinit()
-    
+    #coinches["init"].reinit()
+    del coinches["init"]
+
+    coinches["init"]= Coinche(basic_rules) 
+
     coinches["init"].betting_phase_over = True
-    
+     
+   
     socketio.emit("game_reset")
 
     return flask.jsonify({"done": True})
@@ -352,6 +356,8 @@ def change_atout(atout_color,player):
 
     coinches["init"].game.atout = Atout() 
     coinches["init"].game.atout.color = Color[atout_color] 
+    coinches["init"].game.do_order_hands() 
+
 
     response = {
                 "atout_updated":True
