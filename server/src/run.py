@@ -21,8 +21,8 @@ socketio = socket.SocketIO(app, cors_allowed_origins="*",logger=True)
 
 
 
-#coinches = {"init":Coinche(basic_rules) }
-coinches = {"init":Coinche([]) }
+coinches = {"init":Coinche(basic_rules) }
+#coinches = {"init":Coinche([]) }
 
 coinches["init"].betting_phase_over = True
  
@@ -63,6 +63,11 @@ def reinit_game():
     """
 
     coinches["init"].reinit()
+    
+    coinches["init"].betting_phase_over = True
+    
+    socketio.emit("game_reset")
+
     return flask.jsonify({"done": True})
 
 
@@ -210,7 +215,20 @@ def is_play_allowed(player):
 
     player = int(player)
 
-    is_allowed = coinches["init"].betting_phase_over and coinches["init"].game.validate_card(coinches["init"].game.hands[player][data["card"]],player)
+    is_allowed = coinches["init"].betting_phase_over 
+    
+    if not(is_allowed):
+        print(f"{data} betting_phase_not_over")    
+    else :
+        is_allowed = is_allowed and coinches["init"].game.validate_card(coinches["init"].game.hands[player][data["card"]],player)
+         
+        if not(is_allowed):
+            print(f"{data} card not valid")    
+        
+    
+
+
+
     is_allowed_dict = {"result":is_allowed}
 
     print(data,is_allowed_dict)

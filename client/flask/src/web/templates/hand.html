@@ -18,6 +18,18 @@
               location.reload();
           });
 
+          socket.on('atout_changed', function() {
+              location.reload();
+              console.log("atout_changed")
+          });
+
+          socket.on('game_reset', function() {
+              location.reload();
+              console.log("game_reset")
+          });
+
+
+
           socket.on('new_bet', function(data) {
               data = JSON.parse(data);
               text = get_name_player(data.player) +" bet " + data.bet.value + " " + data.bet.color ;
@@ -37,7 +49,8 @@
           socket.on('game_over', function(data) {
               data = JSON.parse(data);
               text = "Game over , Team 1 score : " + data.team_1_points + "  Team 2 score : " + data.team_2_points ;
-              document.getElementById("bets").value += text + "\n";
+               <!--document.getElementById("bets").value += text + "\n";-->
+              alert(text);
           });
 
       });
@@ -104,7 +117,7 @@
         return players_name[player]
       };
 
-      function update_game_ingo() {
+      function update_game_info() {
 
         var players_name = ['south', 'west','north','est'];
         players_name[{{player}}] = ["you"]
@@ -119,6 +132,8 @@
 
           if (jsonResponse) {
             document.getElementById("h1_next_player_info").innerHTML = "next player is " + players_name[jsonResponse["next_player"]] ;
+            document.getElementById("h1_atout_info").innerHTML = "Atout is " + jsonResponse["atout"] ;
+            
           }
           console.log(jsonResponse)
         }
@@ -126,7 +141,7 @@
 
       };
 
-      window.onload = update_game_ingo;
+      window.onload = update_game_info;
 
 
 
@@ -158,7 +173,11 @@
   {% endif %}
 {% endfor %}
 
+
 <div class="trick">
+
+  
+  <!--
   <select name="bets" id="value-select">
     <option value="">--Please choose an bet--</option>
     {%for bet in bets_available%}
@@ -173,8 +192,14 @@
     {% endfor %}
   </select>
 
+  
+
   <button type="button" onclick="bet({{player}});">bet </button>
-  <textarea id="bets" cols="50" rows="5"></textarea><br><br>
+ <textarea id="bets" cols="50" rows="5"></textarea><br><br>
+ 
+  -->
+  
+
 </div>
 
 
@@ -184,8 +209,16 @@
 
 
 
+<div class="atout_info">
+  <h1 id="h1_atout_info" style="font-size:30px; color:white; texit-align:center;">   Atout is </h1>
+</div>
+
+
+
+
 
 
 
 </body>
 </html>
+

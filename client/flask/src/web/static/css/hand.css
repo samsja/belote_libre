@@ -19,8 +19,18 @@ div.card {
 div.next_player_info {
   position: absolute;
   top : 0px;
-  left: 800px;
+  left: 1100px;
 }
+
+
+
+div.atout_info {
+  position: absolute;
+  top : 0px;
+  left: 400px;
+}
+
+
 
 div.hand {
   position: absolute;
