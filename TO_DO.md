@@ -1,6 +1,10 @@
 # Next Step TO DO
 
 
+* fix multiples bugs 
+  - see remark.md
+
+
 * making the game prettier
 
   - using a 3D renderer for the card game 
