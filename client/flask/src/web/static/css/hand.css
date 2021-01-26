@@ -27,9 +27,15 @@ div.next_player_info {
 div.atout_info {
   position: absolute;
   top : 0px;
-  left: 400px;
+  left: 300px;
 }
 
+
+div.score {
+  position: absolute;
+  top : 200px;
+  left: 1600px;
+}
 
 
 div.hand {
