@@ -2,7 +2,7 @@ import flask
 import flask_socketio as socket
 from flask_cors import CORS
 
-from game_class.game import Game
+from game_class.game import Game, Atout
 from game_class.card import Color
 
 from game_class.coinche import Coinche
@@ -21,7 +21,12 @@ socketio = socket.SocketIO(app, cors_allowed_origins="*",logger=True)
 
 
 
-coinches = {"init":Coinche(basic_rules) }
+#coinches = {"init":Coinche(basic_rules) }
+coinches = {"init":Coinche([]) }
+
+coinches["init"].betting_phase_over = True
+ 
+
 
 @app.route('/')
 def alive():
@@ -167,6 +172,8 @@ def game_info():
         mimetype='application/json'
     )
     return response
+
+
 
 @app.route("/players_name/<player>")
 def players_name(player):
@@ -319,6 +326,20 @@ def handle_bet(bet,player):
                }
 
     socketio.emit("new_bet",json.dumps(response))
+
+
+@socketio.on('change_atout')
+def change_atout(atout_color,player):
+   
+
+    coinches["init"].game.atout = Atout() 
+    coinches["init"].game.atout.color = Color[atout_color] 
+
+    response = {
+                "atout_updated":True
+                }
+
+    socketio.emit("atout_changed",json.dumps(response))
 
 
 
