@@ -11,6 +11,12 @@
 
   const host='http://{{api_host}}/';
 
+ $(document).ready(function(){
+       socket = io.connect("http://{{api_host}}/");
+   });
+
+
+
   function reset() {
     let Http = new XMLHttpRequest();
 
@@ -20,12 +26,30 @@
                 var jsonResponse = Http.response;
                 console.log("game reset")
             }
-        }
-        Http.responseType = 'json';
+      }
+      Http.responseType = 'json';
         Http.open('GET',  host+"reinit_game", true);
         Http.send();
     }
   };
+
+
+  function test() {
+    console.log("test")
+  
+  };
+
+  function change_atout(player){
+    
+     console.log($("#color-select").val());
+
+     socket.emit("change_atout",$("#color-select").val(),0)
+
+
+
+  };
+
+
   </script>
 
 </head>
@@ -41,6 +65,19 @@
 <div class="reset">
   <button class="button button1" onclick="reset();" >Reset Game</button>
 </div>
+
+
+
+<div class="change_atout">
+  <select name="color" id="color-select" onchange="change_atout();">
+      <option value="">--Please choose an color--</option>
+      {%for color in colors%}
+        <option value="{{color}}">{{color}}</option>
+      {% endfor %}
+  </select>
+</div>
+
+
 
 <div class="est">
   <p style="font-size:40px; color:white;" > <a href="http://{{my_host}}/play/3">est</a></p>

@@ -23,6 +23,15 @@ div.reset {
   left: 1600px
 }
 
+
+div.change_atout {
+  position: absolute;
+  bottom: 30px;
+  left: 1600px
+}
+
+
+
 div.credit {
   position: absolute;
   bottom: 10px;
